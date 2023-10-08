@@ -125,11 +125,11 @@ export default {
   },
 
   axios: {
-    baseURL: "https://solariskg.com/solaris/api",
+    baseURL: "https://solariskg.net/solaris/api",
   },
 
   publicRuntimeConfig: {
-    FILE_URL: "https://solariskg.com/solaris/api/uploads",
+    FILE_URL: "https://solariskg.net/solaris/api/uploads",
   },
 
   // axios: {

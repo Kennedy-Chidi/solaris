@@ -103,8 +103,8 @@
 </template>
 
 <script>
-import HomeFooter from "../components/home/HomeFooter.vue";
-import HomeHeader from "../components/home/HomeHeader.vue";
+import HomeFooter from "../components/home/HomeFooter";
+import HomeHeader from "../components/home/HomeHeader";
 export default {
   data() {
     return {
@@ -151,7 +151,7 @@ export default {
         }
         this.onRequest = false;
       } catch (err) {
-        console.log(err, err.response);
+        console.log(err);
         // this.showMessage(err.response.data.message);
       }
     },
