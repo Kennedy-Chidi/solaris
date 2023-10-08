@@ -3,11 +3,7 @@
     <div class="nav-contains">
       <div class="top-header">
         <nuxt-link to="/" class="logo-link w-inline-block"
-          ><img
-            src="/images/Zivik-Logo.svg"
-            loading="lazy"
-            alt=""
-            class="image-33"
+          ><img src="/SolarisBlack.png" loading="lazy" alt="" class="image-33"
         /></nuxt-link>
         <div class="top-nav-info-holder">
           <nuxt-link to="/contact" class="nav-link-block last w-inline-block"

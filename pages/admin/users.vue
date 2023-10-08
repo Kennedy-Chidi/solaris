@@ -131,11 +131,11 @@
                     </div>
                   </td>
                   <td>
-                    <nuxt-link :to="`/admin/add-user/${user._id}`">{{
+                    <nuxt-link :to="`/admin/add-user/${user.id}`">{{
                       user.username
                     }}</nuxt-link>
 
-                    <nuxt-link :to="`/admin/transactions/${user._id}`"
+                    <nuxt-link :to="`/admin/transactions/?id=${user.id}`"
                       ><div class="filter-box">
                         <img
                           src="/images/deposit.svg"
@@ -301,7 +301,7 @@
 <script>
 import AdminConfirmation from "../../components/admin/AdminConfirmation.vue";
 import AdminFooter from "../../components/admin/AdminFooter.vue";
-import AdminNavigation from "../../components/admin/AdminNavigation.vue";
+import AdminNavigation from "../../components/admin/AdminNavigation";
 import AdminTopHeader from "../../components/admin/AdminTopHeader.vue";
 import Instruction from "../../components/admin/Instruction.vue";
 
@@ -515,7 +515,7 @@ export default {
       try {
         const result = await this.$axios.get(`/users/${query}`);
         this.users = this.checkItems(result.data.data);
-        this.itemLength = result.data.length;
+        this.itemLength = result.data.totalLength;
       } catch (err) {
         console.log(err.response);
       }

@@ -133,11 +133,11 @@ export default {
   },
 
   // axios: {
-  //   baseURL: process.env.API_DEV_URL,
+  //   baseURL: "http://127.0.0.1/school/api",
   // },
 
   // publicRuntimeConfig: {
-  //   FILE_URL: process.env.FILE_DEV_URL,
+  //   FILE_URL: "http://127.0.0.1/school/api/uploads",
   // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

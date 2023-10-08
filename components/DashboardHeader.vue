@@ -24,6 +24,11 @@
         />
       </div>
       <div @click="goToProfile" v-if="user" class="each-icon-wrapper round">
+        <img
+          :src="`http://127.0.0.1/school/api/uploads/${user.profilePicture}`"
+          alt=""
+          srcset=""
+        />
         <div
           class="top-image"
           :style="{

@@ -7,7 +7,7 @@
             <div class="each-footer-content">
               <div class="footer-logo-holder">
                 <img
-                  src="/images/Dark-Logo.png"
+                  src="/SolarisWhite.png"
                   loading="lazy"
                   alt=""
                   class="image-16"

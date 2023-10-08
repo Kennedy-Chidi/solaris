@@ -381,9 +381,12 @@ export default {
 
     async updateBanner(form) {
       try {
-        await this.$axios.patch(`/banner/${this.editingId}`, form);
+        const result = await this.$axios.patch(
+          `/banners/?id=${this.editingId}`,
+          form
+        );
+        this.banner = result.data.data;
         this.clearInputs();
-        this.getBanner();
       } catch (err) {
         console.log(err.response.data.message);
       }
@@ -391,9 +394,9 @@ export default {
 
     async createBanner(form) {
       try {
-        await this.$axios.post("/banner", form);
+        const result = await this.$axios.post("/banners", form);
+        this.banner = result.data.data;
         this.clearInputs();
-        this.getBanner();
       } catch (err) {
         console.log(err.response.data.message);
       }
@@ -401,7 +404,7 @@ export default {
 
     async getBanner() {
       try {
-        const result = await this.$axios.get(`/banner`);
+        const result = await this.$axios.get(`/banners`);
         this.banner = result.data.data;
       } catch (err) {
         console.log(err.response.data.message);

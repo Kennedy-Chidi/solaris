@@ -264,7 +264,7 @@
 
 <script>
 import AdminFooter from "../../components/admin/AdminFooter.vue";
-import AdminNavigation from "../../components/admin/AdminNavigation.vue";
+import AdminNavigation from "../../components/admin/AdminNavigation";
 import AdminTopHeader from "../../components/admin/AdminTopHeader.vue";
 import Instruction from "../../components/admin/Instruction.vue";
 
@@ -365,9 +365,6 @@ export default {
       try {
         const result = await this.$axios.get(`/emails`);
         this.emails = result.data.data;
-        if (this.emails.length == 0) {
-          this.createEmails();
-        }
       } catch (err) {
         console.log(err.response.data);
       }

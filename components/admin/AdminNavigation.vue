@@ -83,50 +83,7 @@
             />
             <div class="link-text">Add User</div></nuxt-link
           >
-          <nuxt-link
-            :class="{ active: route == 'admin-accounts' }"
-            to="/admin/accounts"
-            class="nav-link w-inline-block"
-            ><img
-              :src="`/images/${
-                route == 'admin-accounts' ? 'colored-plans.svg' : 'plans.svg'
-              }`"
-              loading="lazy"
-              alt=""
-              class="nav-icon"
-            />
-            <div class="link-text">Accounts</div></nuxt-link
-          >
-          <nuxt-link
-            :class="{ active: route == 'admin-reviews' }"
-            to="/admin/reviews"
-            class="nav-link w-inline-block"
-            ><img
-              :src="`/images/${
-                route == 'admin-reviews' ? 'colored-reviews.svg' : 'reviews.svg'
-              }`"
-              loading="lazy"
-              alt=""
-              class="nav-icon"
-            />
-            <div class="link-text">Reviews</div></nuxt-link
-          >
-          <nuxt-link
-            :class="{ active: route == 'admin-currencies' }"
-            to="/admin/currencies"
-            class="nav-link w-inline-block"
-            ><img
-              :src="`/images/${
-                route == 'admin-currencies'
-                  ? 'colored-currency.svg'
-                  : 'currency.svg'
-              }`"
-              loading="lazy"
-              alt=""
-              class="nav-icon"
-            />
-            <div class="link-text">Currencies</div></nuxt-link
-          >
+
           <nuxt-link
             :class="{ active: route.includes('transactions') }"
             to="/admin/transactions/list"
@@ -191,7 +148,7 @@
             <div class="link-text">Settings</div></nuxt-link
           >
 
-          <nuxt-link
+          <!-- <nuxt-link
             :class="{ active: route == 'admin-referrals' }"
             to="/admin/referrals"
             class="nav-link w-inline-block"
@@ -207,6 +164,50 @@
             />
             <div class="link-text">Referrals</div></nuxt-link
           >
+          <nuxt-link
+            :class="{ active: route == 'admin-accounts' }"
+            to="/admin/accounts"
+            class="nav-link w-inline-block"
+            ><img
+              :src="`/images/${
+                route == 'admin-accounts' ? 'colored-plans.svg' : 'plans.svg'
+              }`"
+              loading="lazy"
+              alt=""
+              class="nav-icon"
+            />
+            <div class="link-text">Accounts</div></nuxt-link
+          >
+          <nuxt-link
+            :class="{ active: route == 'admin-reviews' }"
+            to="/admin/reviews"
+            class="nav-link w-inline-block"
+            ><img
+              :src="`/images/${
+                route == 'admin-reviews' ? 'colored-reviews.svg' : 'reviews.svg'
+              }`"
+              loading="lazy"
+              alt=""
+              class="nav-icon"
+            />
+            <div class="link-text">Reviews</div></nuxt-link
+          >
+          <nuxt-link
+            :class="{ active: route == 'admin-currencies' }"
+            to="/admin/currencies"
+            class="nav-link w-inline-block"
+            ><img
+              :src="`/images/${
+                route == 'admin-currencies'
+                  ? 'colored-currency.svg'
+                  : 'currency.svg'
+              }`"
+              loading="lazy"
+              alt=""
+              class="nav-icon"
+            />
+            <div class="link-text">Currencies</div></nuxt-link
+          > -->
 
           <span @click="logout" class="nav-link w-inline-block"
             ><img

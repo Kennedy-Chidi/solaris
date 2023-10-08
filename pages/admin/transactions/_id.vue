@@ -89,14 +89,14 @@
                       class="banner symbol"
                     />
                   </td>
-                  <td>{{ transaction.account.username }}</td>
-                  <td>{{ transaction.account.fullName }}</td>
+                  <td>{{ transaction.username }}</td>
+                  <td>{{ transaction.senderFullName }}</td>
                   <td>{{ transaction.amount }}</td>
                   <td>{{ transaction.transactionType }}</td>
                   <td>{{ formatDate(transaction.dateCreated) }}</td>
                   <td>{{ transaction.receiverBank }}</td>
                   <td>{{ transaction.receiverName }}</td>
-                  <td>{{ transaction.receiverAddress }}</td>
+                  <td>{{ transaction.receiverAccountNumber }}</td>
                   <td>
                     {{ transaction.narration }}
                   </td>
@@ -247,10 +247,10 @@
                   v-model="sender"
                 />
               </div>
-              <div class="each-input content">
+              <div v-if="user" class="each-input content">
                 <label for="field-2" class="input-label"
                   >Narration
-                  <nuxt-link :to="`/admin/add-user/${user._id}`">{{
+                  <nuxt-link :to="`/admin/add-user/?id=${user.id}`">{{
                     user.username
                   }}</nuxt-link></label
                 >
@@ -344,10 +344,7 @@ export default {
   },
   methods: {
     checkId() {
-      if (
-        this.$route.params == undefined ||
-        this.$route.params.id.length != 24
-      ) {
+      if (this.$route.query.id == undefined || this.$route.query.id == null) {
         this.showEditButton = false;
         return false;
       } else {
@@ -443,29 +440,24 @@ export default {
 
     processTransaction() {
       const form = {
-        receiverAccountType: this.account.accountType,
-        receiverAddress: this.account.accountNumber,
-        receiverBank: this.company.companyBank,
-        receiverName: this.account.fullName,
-        receiverUsername: this.account.username,
-        username: this.account.username,
         amount: this.amount,
+        receiverAccountNumber: this.user.accountNumber,
+        receiverBank: this.company.companyName,
+        receiverAccountName: `${this.user.firstName} ${this.user.lastName}`,
+        transactionType: "Deposit",
+        username: this.user.username,
+        userId: this.user.id,
+        senderFullName: this.sender,
+        email: this.user.email,
+        dateCreated: `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`,
         narration: this.narration,
-        sender: this.sender,
-        account: this.account,
-        transactionType: "deposit",
-        autoTransact: true,
-        user: this.user,
-        date:
-          this.datetime != ""
-            ? `${new Date(this.datetime).getDate()}/${new Date(
-                this.datetime
-              ).getMonth()}/${new Date(this.datetime).getFullYear()}`
-            : `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`,
-        dateCreated:
-          this.datetime != ""
-            ? new Date(this.datetime).getTime()
-            : new Date().getTime(),
+
+        time: new Date().getTime(),
+        newPin: this.newPin,
+        confirmPin: this.confirmPin,
+        pin: this.pin,
+        status: false,
+        setPin: this.setPin,
       };
 
       this.createTransaction(form);
@@ -482,45 +474,38 @@ export default {
     },
 
     async createTransaction(form) {
+      const query = `?limit=${this.limit}&page=${this.currentPage}&sort=${this.sort}&status=0`;
       try {
-        await this.$axios.post(`/transactions`, form);
+        const result = await this.$axios.post(`/transactions/${query}`, form);
         this.getTransactions();
         this.cleareInputs();
       } catch (err) {
-        this.showResponseMsg(err.response.data.message);
+        console.log(err);
+        // this.showResponseMsg(err.response.data.message);
       }
     },
 
     async getUser(id) {
       try {
-        const result = await this.$axios.get(`/users/${id}`);
-        this.user = result.data.data;
-        this.getAnAccount(this.user.username);
+        const result = await this.$axios.get(`/users/?id=${id}`);
+        this.user = result.data;
       } catch (err) {
         console.log(err.response.data.message);
       }
     },
 
     async approveTransaction() {
-      // this.editingItem.date =
-      //   this.datetime != ""
-      //     ? `${new Date(this.datetime).getDate()}/${new Date(
-      //         this.datetime
-      //       ).getMonth()}/${new Date(this.datetime).getFullYear()}`
-      //     : `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`;
-
-      // this.editingItem.dateCreated =
-      //   this.datetime != ""
-      //     ? new Date(this.datetime).getTime()
-      //     : new Date().getTime();
+      const query = `&limit=${this.limit}&page=${this.currentPage}&sort=${this.sort}&status=0`;
 
       try {
-        await this.$axios.patch(
-          `/transactions/${this.editingItem._id}`,
-          this.editingItem
+        const result = await this.$axios.patch(
+          `/transactions/?id=${this.editingItem.id}${query}`,
+          {
+            status: 1,
+          }
         );
-        this.getTransactions();
-        this.cleareInputs();
+        this.transactions = result.data.data;
+        this.itemLength = result.data.length;
       } catch (err) {
         console.log(err.response.data.message);
       }
@@ -542,7 +527,6 @@ export default {
       try {
         const result = await this.$axios.get(`/account/${username}`);
         this.account = result.data.data;
-        console.log(this.account);
       } catch (err) {
         console.log(err.response.data.message);
       }
@@ -569,7 +553,7 @@ export default {
 
   mounted() {
     if (this.checkId()) {
-      this.getUser(this.$route.params.id);
+      this.getUser(this.$route.query.id);
     }
     this.getTransactions();
   },
