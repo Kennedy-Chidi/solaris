@@ -22,7 +22,7 @@
             <div v-for="blog in blogs" :key="blog._id" class="blog-holder">
               <div class="blog-link-background-holder">
                 <nuxt-link
-                  :to="`/news-details/${blog._id}`"
+                  :to="`/news-details/${blog.id}`"
                   class="blog-link-background w-inline-block"
                   :style="{
                     backgroundImage: `url(${FILE_URL}/${blog.banner})`,
@@ -39,7 +39,7 @@
               </div>
               <div class="news-head-link-holder">
                 <nuxt-link
-                  :to="`/news-details/${blog._id}`"
+                  :to="`/news-details/?id=${blog.id}`"
                   class="news-head-link"
                   >{{ blog.title }}</nuxt-link
                 >
@@ -51,7 +51,7 @@
               </div>
               <div class="news-text-link-holder">
                 <nuxt-link
-                  :to="`/news-details/${blog.id}`"
+                  :to="`/news-details/?id=${blog.id}`"
                   class="news-text-link"
                   >Read More</nuxt-link
                 >

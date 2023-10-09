@@ -597,7 +597,7 @@
 
 <script>
 import HomeFooter from "../components/home/HomeFooter.vue";
-import HomeHeader from "../components/home/HomeHeader.vue";
+import HomeHeader from "../components/home/HomeHeader";
 export default {
   data() {
     return {
@@ -823,6 +823,14 @@ export default {
       if (this.password != this.cPassword) {
         this.onRequest = false;
         this.showMessage("Sorry, password do not match.");
+      } else if (
+        this.email == "" ||
+        !this.email ||
+        !/^\S+@\S+\.\S+$/.test(this.email)
+      ) {
+        this.onRequest = false;
+        this.showMessage("Please choose provide a valid email");
+        return;
       } else {
         this.onRequest = true;
         const form = new FormData();

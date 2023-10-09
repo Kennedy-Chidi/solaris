@@ -32,7 +32,7 @@
 
           <nuxt-link
             v-else
-            to="login"
+            to="/login"
             class="nav-link-block last w-inline-block"
             @click="logout"
             ><img
@@ -57,7 +57,7 @@
             <div class="link-block-text">Dashboard</div></nuxt-link
           >
 
-          <nuxt-link v-else to="signup" class="nav-link-block w-inline-block"
+          <nuxt-link v-else to="/signup" class="nav-link-block w-inline-block"
             ><img
               src="https://uploads-ssl.webflow.com/6405430dbac1369b9494f2e3/6406403f5b16231c4daa13d4_persona-icon%201.svg"
               loading="lazy"

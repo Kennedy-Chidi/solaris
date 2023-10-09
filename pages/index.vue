@@ -305,7 +305,7 @@
 
 <script>
 import HomeFooter from "../components/home/HomeFooter";
-import HomeHeader from "../components/home/HomeHeader.vue";
+import HomeHeader from "../components/home/HomeHeader";
 export default {
   data() {
     return {

@@ -38,10 +38,10 @@
           <a href="#" class="comment">- Comment</a>
         </div>
         <div class="blog-post-holder">
-          <div class="each-blog-post">
+          <div v-for="blog in twoBlogs" :key="blog.id" class="each-blog-post">
             <div class="blog-post-img-holder">
               <img
-                src="https://uploads-ssl.webflow.com/6405430dbac1369b9494f2e3/6408df24e4cf6a2ab0fb0f3a_8-150x150.jpg"
+                :src="`${FILE_URL}/${blog.banner}`"
                 loading="lazy"
                 alt=""
                 class="image-32"
@@ -49,47 +49,13 @@
             </div>
             <div>
               <div class="blog-post-text-link-holder">
-                <a href="#" class="blog-post-text-link"
-                  >Zivik Bank Receives Top Workplace Award</a
+                <nuxt-link
+                  :to="`/news-details/?id=${blog.id}`"
+                  class="blog-post-text-link"
+                  >{{ blog.title }}</nuxt-link
                 >
               </div>
-              <div class="blog-post-link-text">August 15, 2017</div>
-            </div>
-          </div>
-          <div class="each-blog-post">
-            <div class="blog-post-img-holder">
-              <img
-                src="https://uploads-ssl.webflow.com/6405430dbac1369b9494f2e3/6408e6218291c60570f4ecc9_6-150x150.jpg"
-                loading="lazy"
-                alt=""
-                class="image-32"
-              />
-            </div>
-            <div class="blog-post-text">
-              <div class="blog-post-text-link-holder">
-                <a href="#" class="blog-post-text-link"
-                  >Zivik Bank Announce Officer promotion</a
-                >
-              </div>
-              <div class="blog-post-link-text">August 15, 2017</div>
-            </div>
-          </div>
-          <div class="each-blog-post">
-            <div class="blog-post-img-holder">
-              <img
-                src="https://uploads-ssl.webflow.com/6405430dbac1369b9494f2e3/6408e6a1e4cf6a832afb8f53_7-75x75.jpg"
-                loading="lazy"
-                alt=""
-                class="image-32"
-              />
-            </div>
-            <div>
-              <div class="blog-post-text-link-holder">
-                <a href="#" class="blog-post-text-link"
-                  >Zivik Bank Receives Top Workplace Award</a
-                >
-              </div>
-              <div class="blog-post-link-text">August 15, 2017</div>
+              <div class="blog-post-link-text">{{ formatDate(blog.time) }}</div>
             </div>
           </div>
         </div>
@@ -125,20 +91,60 @@ export default {
   data() {
     return {
       company: "",
+      twoBlogs: [],
     };
   },
   methods: {
-    async getCompany() {
+    getTwo(blogs) {
+      const array = [];
+      for (let i = 0; i < 3; i++) {
+        array.push(blogs[i]);
+      }
+      return array;
+    },
+
+    formatDate(data) {
+      if (data == null || data == undefined) {
+        return "N/A";
+      }
+      const date = new Date(data).getTime(); // Note that month is zero-indexed in JavaScript
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        suffix: (day) => {
+          if (day === 1 || day === 21 || day === 31) {
+            return "st";
+          } else if (day === 2 || day === 22) {
+            return "nd";
+          } else if (day === 3 || day === 23) {
+            return "rd";
+          } else {
+            return "th";
+          }
+        },
+      };
+
+      return new Intl.DateTimeFormat("en-US", options).format(date);
+    },
+
+    async getBlogs() {
       try {
-        const result = await this.$axios.get("/company");
-        this.company = await result.data.data[0];
+        const result = await this.$axios.get("/blogs/?category=Banking");
+        this.blogs = result.data.data;
+        this.twoBlogs = this.getTwo(result.data.data);
       } catch (err) {
         console.log(err.response);
       }
     },
   },
+  computed: {
+    FILE_URL() {
+      return this.$store.state.fileURL;
+    },
+  },
   mounted() {
-    this.getCompany();
+    this.getBlogs();
   },
 };
 </script>

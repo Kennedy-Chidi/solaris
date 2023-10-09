@@ -52,7 +52,7 @@
                       class="image-29"
                     />
                     <div class="link-amount">
-                      {{ formatDate(blog.date) }}
+                      {{ formatDate(blog.time) }}
                     </div></a
                   >
                 </div>
@@ -68,174 +68,15 @@
 
               <div class="last-news-text-holder">
                 <div class="hold-last-news-text">
-                  <div class="last-news-text">July 21, 2017 -</div>
+                  <div class="last-news-text">
+                    {{ formatDate(blog.time) }} -
+                  </div>
                 </div>
-                <a href="#" class="last-news-texts-link">cmsmasters</a>
+                <a href="#" class="last-news-texts-link">{{ blog.author }}</a>
               </div>
             </div>
           </div>
-          <div class="second-blog-content-holder">
-            <div>
-              <div class="form-space-bar-holder w-form">
-                <form
-                  id="email-form"
-                  name="email-form"
-                  data-name="Email Form"
-                  method="get"
-                >
-                  <div class="space-bar-holder">
-                    <input
-                      type="text"
-                      class="space-bar w-input"
-                      maxlength="256"
-                      name="name"
-                      data-name="Name"
-                      placeholder="enter Keywords"
-                      id="name"
-                    /><img
-                      src="https://uploads-ssl.webflow.com/6405430dbac1369b9494f2e3/64063f49ee6ec7493c7588d5_search-line-icon%20(1)%202.svg"
-                      loading="lazy"
-                      alt=""
-                      class="image-31"
-                    />
-                  </div>
-                </form>
-              </div>
-
-              <div class="second-blog-side-link-holder">
-                <div class="blog-link-header-holder">
-                  <h1 class="blog-link-header">Blog</h1>
-                </div>
-                <div class="blog-post-link-holder">
-                  <div class="comment-holder">
-                    <a href="#" class="comment red">Latest</a>
-                  </div>
-                  <div class="comment-holder">
-                    <a href="#" class="comment">- Popular</a>
-                  </div>
-                  <a href="#" class="comment">- Comment</a>
-                </div>
-                <div class="blog-post-holder">
-                  <div class="each-blog-post">
-                    <div class="blog-post-img-holder">
-                      <img
-                        src="https://uploads-ssl.webflow.com/6405430dbac1369b9494f2e3/6408df24e4cf6a2ab0fb0f3a_8-150x150.jpg"
-                        loading="lazy"
-                        alt=""
-                        class="image-32"
-                      />
-                    </div>
-                    <div>
-                      <div class="blog-post-text-link-holder">
-                        <a href="#" class="blog-post-text-link"
-                          >Zivik Bank Receives Top Workplace Award</a
-                        >
-                      </div>
-                      <div class="blog-post-link-text">August 15, 2017</div>
-                    </div>
-                  </div>
-                  <div class="each-blog-post">
-                    <div class="blog-post-img-holder">
-                      <img
-                        src="https://uploads-ssl.webflow.com/6405430dbac1369b9494f2e3/6408e6218291c60570f4ecc9_6-150x150.jpg"
-                        loading="lazy"
-                        alt=""
-                        class="image-32"
-                      />
-                    </div>
-                    <div class="blog-post-text">
-                      <div class="blog-post-text-link-holder">
-                        <a href="#" class="blog-post-text-link"
-                          >Zivik Bank Announce Officer promotion</a
-                        >
-                      </div>
-                      <div class="blog-post-link-text">August 15, 2017</div>
-                    </div>
-                  </div>
-                  <div class="each-blog-post">
-                    <div class="blog-post-img-holder">
-                      <img
-                        src="https://uploads-ssl.webflow.com/6405430dbac1369b9494f2e3/6408e6a1e4cf6a832afb8f53_7-75x75.jpg"
-                        loading="lazy"
-                        alt=""
-                        class="image-32"
-                      />
-                    </div>
-                    <div>
-                      <div class="blog-post-text-link-holder">
-                        <a href="#" class="blog-post-text-link"
-                          >ZivikBank Receives Top Workplace Award</a
-                        >
-                      </div>
-                      <div class="blog-post-link-text">August 15, 2017</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="third-blog-side-link-holder">
-                <div class="blog-link-header-holder">
-                  <h1 class="blog-link-header">Blog</h1>
-                </div>
-                <div
-                  data-delay="4000"
-                  data-animation="slide"
-                  class="slider-4 w-slider"
-                  data-autoplay="false"
-                  data-easing="ease"
-                  data-hide-arrows="false"
-                  data-disable-swipe="false"
-                  data-autoplay-limit="0"
-                  data-nav-spacing="3"
-                  data-duration="500"
-                  data-infinite="true"
-                >
-                  <div class="w-slider-mask">
-                    <div class="slide-post w-slide">
-                      <a href="#" class="slide-post-img w-inline-block"></a>
-                    </div>
-                    <div class="slide-post w-slide">
-                      <a
-                        href="#"
-                        class="slide-post-img second w-inline-block"
-                      ></a>
-                    </div>
-                    <div class="slide-post w-slide">
-                      <a
-                        href="#"
-                        class="slide-post-img third w-inline-block"
-                      ></a>
-                    </div>
-                  </div>
-                  <div class="left-arrow-4 w-slider-arrow-left">
-                    <div class="w-icon-slider-left"></div>
-                  </div>
-                  <div class="right-arrow-4 w-slider-arrow-right">
-                    <div class="w-icon-slider-right"></div>
-                  </div>
-                  <div class="w-slider-nav w-slider-nav-invert w-round"></div>
-                </div>
-              </div>
-              <div class="fourth-blog-side-link-holder">
-                <div class="blog-link-header-holder">
-                  <h1 class="blog-link-header">Contacts:</h1>
-                </div>
-                <div class="div-bottom-border-holder">
-                  <div class="div-bottom-border">
-                    <div class="texts-headers">Address:</div>
-                    <div class="texts-headers">Brooklyn, 10036, US</div>
-                  </div>
-                  <div class="div-bottom-border">
-                    <div class="texts-headers">Email:</div>
-                    <a href="#" class="email-link">example@example.com</a>
-                  </div>
-                  <div class="div-bottom-border">
-                    <div class="texts-headers">Phone:</div>
-                    <div class="texts-headers">1-800-123-1234</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <aside-news />
         </div>
       </div>
     </div>
@@ -244,6 +85,7 @@
 </template>
 
 <script>
+import AsideNews from "../../components/AsideNews.vue";
 import HomeFooter from "../../components/home/HomeFooter.vue";
 import HomeHeader from "../../components/home/HomeHeader.vue";
 export default {
@@ -302,8 +144,8 @@ export default {
 
     async getBlog(id) {
       try {
-        const result = await this.$axios.get(`/blog/${id}`);
-        this.blog = result.data.data;
+        const result = await this.$axios.get(`/blogs/?id=${id}`);
+        this.blog = result.data;
         this.loadScript();
       } catch (err) {
         console.log(err.response.data);
@@ -316,9 +158,9 @@ export default {
     },
   },
   mounted() {
-    this.getBlog(this.$route.params.id);
+    this.getBlog(this.$route.query.id);
   },
-  components: { HomeFooter, HomeHeader },
+  components: { HomeFooter, HomeHeader, AsideNews },
 };
 </script>
 
