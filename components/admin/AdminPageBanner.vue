@@ -311,16 +311,6 @@ export default {
 
     setBanner(event) {
       this.bannerImage = event.target.files[0];
-      // const input = event.target;
-
-      // if (input.files && input.files[0]) {
-      //   const reader = new FileReader();
-
-      //   reader.onload = (e) => {
-      //     this.bannerImage = e.target.result;
-      //   };
-      //   reader.readAsDataURL(input.files[0]);
-      // }
     },
 
     clearInputs() {
@@ -395,10 +385,12 @@ export default {
     async createBanner(form) {
       try {
         const result = await this.$axios.post("/banners", form);
-        this.banner = result.data.data;
+        // this.banner = result.data.data;
+        this.getBanner();
         this.clearInputs();
       } catch (err) {
-        console.log(err.response.data.message);
+        console.log(err);
+        // console.log(err.response.data.message);
       }
     },
 

@@ -8,7 +8,7 @@
             <a href="#" class="link-3">Advice</a>
           </div>
           <div class="div-block-115">
-            <a href="#" class="link-3">Zivik Bank</a>
+            <a href="#" class="link-3">Solaris Bank</a>
           </div>
           <div class="div-block-115">
             <a href="#" class="link-3">Credit Cards</a>
@@ -102,19 +102,17 @@
         <div class="div-bottom-border-holder">
           <div class="div-bottom-border">
             <div class="texts-headers">Address:</div>
-            <div class="texts-headers" v-if="company.media">
-              {{ company.media[0]?.text }}
+            <div class="texts-headers">
+              Cuvrystraße 53, 10997 Berlin, Germany
             </div>
           </div>
           <div class="div-bottom-border">
             <div class="texts-headers">Email:</div>
-            <a href="#" class="email-link">{{ company.systemEmail }}</a>
+            <a href="#" class="email-link">support@solariskg.com</a>
           </div>
           <div class="div-bottom-border">
             <div class="texts-headers">Phone:</div>
-            <div class="texts-headers" v-if="company.media">
-              {{ company.media[2]?.text }}
-            </div>
+            <div class="texts-headers">+49302325678599</div>
           </div>
         </div>
       </div>

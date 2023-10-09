@@ -156,12 +156,12 @@
           >
             <div class="tabs-menu w-tab-menu">
               <a
-                v-for="(blog, int) in blogs"
-                :key="blog._id"
+                v-for="(blog, int) in twoBlogs"
+                :key="blog.id"
                 :class="{ 'w--current': int == tab }"
                 @click="tab = int"
                 class="tab-link w-inline-block w-tab-link"
-                ><div class="tab-link-texts">{{ blog.subtitle }}</div></a
+                ><div class="tab-link-texts">{{ blog.title }}</div></a
               >
             </div>
             <div class="w-tab-content">
@@ -195,7 +195,7 @@
                       </div>
                     </div>
                     <nuxt-link
-                      :to="`news-details/${blog._id}`"
+                      :to="`news-details/${blog.id}`"
                       class="red-button w-button"
                       >Learn more</nuxt-link
                     >
@@ -212,7 +212,10 @@
       <div class="div-block-37">
         <div class="contain">
           <div class="contents-holder">
-            <div class="full-img"></div>
+            <div
+              class="full-img"
+              style="background-image: url('/images/happyClient.jpg')"
+            ></div>
             <div class="brand-write-up">
               <div class="brand-sub-header-holder">
                 <div class="brand-sub-header">LEARNING CENTER</div>
@@ -260,95 +263,26 @@
               data-infinite="true"
             >
               <div class="w-slider-mask">
-                <div class="slide-return w-slide">
+                <div
+                  v-for="blog in blogs"
+                  :key="blog.id"
+                  class="slide-return w-slide"
+                >
                   <div class="slide-return-holder">
                     <div class="slide-return-img-holder">
                       <a href="#" class="news-link w-inline-block"
                         ><img
-                          src="/images/image1.jpg"
+                          :src="`${FILE_URL}/${blog.banner}`"
                           loading="lazy"
                           sizes="(max-width: 479px) 91vw, (max-width: 767px) 46vw, (max-width: 991px) 31vw, 22vw"
-                          srcset="
-                            /images/image1.jpg 500w,
-                            /images/image1.jpg 580w
-                          "
+                          :srcset="`${FILE_URL}/${blog.banner} 500w,
+                            ${FILE_URL}/${blog.banner} 580w`"
                           alt=""
                           class="image-15"
                       /></a>
                     </div>
                     <div class="slide-return-writeup-holder">
-                      <a href="#" class="slide-link-texts"
-                        >Relief Fund In Place At Zivik Bank: How You Can Help</a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="slide-return w-slide">
-                  <div>
-                    <div class="slide-return-img-holder">
-                      <a href="#" class="news-link w-inline-block"
-                        ><img
-                          src="/images/image2.jpg"
-                          loading="lazy"
-                          sizes="(max-width: 479px) 91vw, (max-width: 767px) 46vw, (max-width: 991px) 31vw, 22vw"
-                          srcset="
-                            /images/image2.jpg 500w,
-                            /images/image2.jpg 580w
-                          "
-                          alt=""
-                          class="image-15"
-                      /></a>
-                    </div>
-                    <div>
-                      <a href="#" class="slide-link-texts"
-                        >When NOT Using Credit Cards Can Hurt You</a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="slide-return w-slide">
-                  <div>
-                    <div class="slide-return-img-holder">
-                      <a href="#" class="news-link w-inline-block"
-                        ><img
-                          src="/images/image3.jpg"
-                          loading="lazy"
-                          sizes="(max-width: 479px) 91vw, (max-width: 767px) 46vw, (max-width: 991px) 31vw, 22vw"
-                          srcset="
-                            /images/image3.jpg 500w,
-                            /images/image3.jpg 580w
-                          "
-                          alt=""
-                          class="image-15"
-                      /></a>
-                    </div>
-                    <div>
-                      <a href="#" class="slide-link-texts"
-                        >Keep Your Children Safe from Financial Fraud</a
-                      >
-                    </div>
-                  </div>
-                </div>
-                <div class="slide-return w-slide">
-                  <div>
-                    <div class="slide-return-img-holder">
-                      <a href="#" class="news-link w-inline-block"
-                        ><img
-                          src="/images/image4.jpg"
-                          loading="lazy"
-                          sizes="(max-width: 479px) 91vw, (max-width: 767px) 46vw, (max-width: 991px) 31vw, 22vw"
-                          srcset="
-                            /images/image4.jpg 500w,
-                            /images/image4.jpg 580w
-                          "
-                          alt=""
-                          class="image-15"
-                      /></a>
-                    </div>
-                    <div>
-                      <a href="#" class="slide-link-texts"
-                        >You’re Making More Money. Here’s How to Save</a
-                      >
+                      <a href="#" class="slide-link-texts">{{ blog.title }}</a>
                     </div>
                   </div>
                 </div>
@@ -370,13 +304,14 @@
 </template>
 
 <script>
-import HomeFooter from "../components/home/HomeFooter.vue";
+import HomeFooter from "../components/home/HomeFooter";
 import HomeHeader from "../components/home/HomeHeader.vue";
 export default {
   data() {
     return {
       banners: [],
       blogs: [],
+      twoBlogs: [],
       tab: 0,
     };
   },
@@ -408,10 +343,19 @@ export default {
       }
     },
 
+    getTwo(blogs) {
+      const array = [];
+      for (let i = 0; i < 2; i++) {
+        array.push(blogs[i]);
+      }
+      return array;
+    },
+
     async getBlogs() {
       try {
-        const result = await this.$axios.get("/blog/?category=Banking");
+        const result = await this.$axios.get("/blogs/?category=Banking");
         this.blogs = result.data.data;
+        this.twoBlogs = this.getTwo(result.data.data);
       } catch (err) {
         console.log(err.response);
       }
@@ -419,7 +363,7 @@ export default {
 
     async getBanner() {
       try {
-        const result = await this.$axios.get(`/banner/?bannerCategory=Home`);
+        const result = await this.$axios.get(`/banners/?bannerCategory=Home`);
         this.banners = result.data.data;
         this.loadScript();
       } catch (err) {

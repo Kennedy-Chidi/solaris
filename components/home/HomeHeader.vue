@@ -56,6 +56,7 @@
             />
             <div class="link-block-text">Dashboard</div></nuxt-link
           >
+
           <nuxt-link v-else to="signup" class="nav-link-block w-inline-block"
             ><img
               src="https://uploads-ssl.webflow.com/6405430dbac1369b9494f2e3/6406403f5b16231c4daa13d4_persona-icon%201.svg"
@@ -134,6 +135,10 @@ export default {
   computed: {
     isAuthenticated() {
       return this.$store.getters.isAuthenticated; // it check if user isAuthenticated
+    },
+
+    user() {
+      return this.$store.state.auth.user; // it check if user isAuthenticated
     },
   },
 };

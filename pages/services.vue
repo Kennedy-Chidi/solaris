@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="service-content wf-section">
+    <!-- <div class="service-content wf-section">
       <div class="contain">
         <div>
           <div class="visa-holder">
@@ -37,16 +37,16 @@
               </div>
               <div class="card-holder-write-up">
                 <div class="texts-header-holder-2">
-                  <div class="texts-header">Zivik Bank EXTRA</div>
+                  <div class="texts-header">Solaris Bank EXTRA</div>
                 </div>
                 <div class="top-heading-holder-3">
                   <h1 class="top-heading">Online Business<br /></h1>
                 </div>
                 <div class="text-style-holder-2">
                   <div class="text-style">
-                    With Zivik Bank Extra, you can make your business
+                    With Solaris Bank Extra, you can make your business
                     transactions online across the globe with Zero-Glitches.
-                    Upgrade to Zivik Bank Extra to begin your smooth business
+                    Upgrade to Solaris Bank Extra to begin your smooth business
                     experience.
                   </div>
                 </div>
@@ -58,12 +58,12 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="service-content-2 wf-section">
       <div class="contain">
         <div class="div-block-96">
-          <div class="content-holder return">
+          <div style="padding-top: 100px" class="content-holder return">
             <div class="background-write">
               <div class="texts-header-holder-2">
                 <div class="texts-header">{{ blog.title }}</div>
@@ -172,7 +172,7 @@
             <div class="side-brand-background"></div>
             <div class="brand-write-up">
               <div class="brand-sub-header-holder">
-                <div class="brand-sub-header">ZIVIK BANK EXPERIENCE</div>
+                <div class="brand-sub-header">SOLARIS BANK EXPERIENCE</div>
               </div>
               <div class="brand-headings-holder">
                 <h1 class="headings">
@@ -181,7 +181,7 @@
               </div>
               <div class="brand-text-holder">
                 <div class="brand-text">
-                  Stay connected with Zivik Bank to get the best experience of
+                  Stay connected with Solaris Bank to get the best experience of
                   online banking with peace of mind on where your treasure lies
                   safe in your hands.
                   <br />
@@ -325,7 +325,7 @@
 </template>
 
 <script>
-import HomeFooter from "../components/home/HomeFooter.vue";
+import HomeFooter from "../components/home/HomeFooter";
 export default {
   data() {
     return {
@@ -363,7 +363,7 @@ export default {
 
     async getBlogs() {
       try {
-        const result = await this.$axios.get("/blog/?category=Banking");
+        const result = await this.$axios.get("/blogs/?category=Banking");
         this.blog = result.data.data[1];
       } catch (err) {
         console.log(err.response);
@@ -373,7 +373,7 @@ export default {
     async getBanner() {
       try {
         const result = await this.$axios.get(
-          `/banner/?bannerCategory=Services`
+          `/banners/?bannerCategory=Services`
         );
         this.banner = result.data.data[0];
         this.loadScript();

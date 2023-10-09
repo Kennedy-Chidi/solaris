@@ -32,11 +32,11 @@
             </div>
             <div class="card-holder-write-up">
               <div class="texts-header-holder-2">
-                <div class="texts-header">Zivik Bank</div>
+                <div class="texts-header">Solaris Bank</div>
               </div>
               <div class="top-heading-holder-3">
                 <h1 class="top-heading">
-                  What is Zivik Bank and why does it give out cards?
+                  What is Solaris Bank and why does it give out cards?
                 </h1>
               </div>
               <div v-if="about" class="text-style-holder-2">
@@ -157,7 +157,7 @@
                   <div class="texts-header">PREMIUM</div>
                 </div>
                 <div class="top-heading-holder-3">
-                  <h1 class="top-heading">Work at Zivik Bank</h1>
+                  <h1 class="top-heading">Work at Solaris Bank</h1>
                 </div>
                 <div class="sub-top-header-holder">
                   <div class="sub-top-header">
@@ -183,7 +183,7 @@
 </template>
 
 <script>
-import HomeFooter from "../components/home/HomeFooter.vue";
+import HomeFooter from "../components/home/HomeFooter";
 export default {
   data() {
     return {
@@ -225,7 +225,7 @@ export default {
 
     async getBanner() {
       try {
-        const result = await this.$axios.get(`/banner/?bannerCategory=About`);
+        const result = await this.$axios.get(`/banners/?bannerCategory=About`);
         this.banner = result.data.data[0];
         this.loadScript();
       } catch (err) {

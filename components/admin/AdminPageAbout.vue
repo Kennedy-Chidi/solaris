@@ -86,10 +86,8 @@ export default {
     async getCompany() {
       try {
         const result = await this.$axios.get("/about");
-        if (result.data.data.length > 0) {
-          this.editState = true;
-        }
-        this.cert = await result.data.data[0].certificate;
+
+        console.log(result);
         this.content = await result.data.data[0].content;
       } catch (err) {
         console.log(err);

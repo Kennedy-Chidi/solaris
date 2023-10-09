@@ -79,7 +79,7 @@
               {{ item.subtitle }}
             </td>
             <td>{{ item.author }}</td>
-            <td>{{ formatDate(item.date) }}</td>
+            <td>{{ formatDate(item.time) }}</td>
             <td>{{ item.content.slice(0, 100) }}</td>
             <td>
               <div
@@ -330,16 +330,6 @@ export default {
 
     setBanner(event) {
       this.banner = event.target.files[0];
-      // const input = event.target;
-
-      // if (input.files && input.files[0]) {
-      //   const reader = new FileReader();
-
-      //   reader.onload = (e) => {
-      //     this.bannerImage = e.target.result;
-      //   };
-      //   reader.readAsDataURL(input.files[0]);
-      // }
     },
 
     clearInputs() {
@@ -396,7 +386,7 @@ export default {
       form.append("content", this.content);
       form.append("author", this.author);
       form.append(
-        "date",
+        "time",
         this.date == "" ? new Date().getTime() : new Date(this.date).getTime()
       );
       if (this.editingState) {
@@ -408,7 +398,7 @@ export default {
 
     async updateBlog(form) {
       try {
-        await this.$axios.patch(`/blog/${this.editingId}`, form);
+        await this.$axios.patch(`/blogs/${this.editingId}`, form);
         this.clearInputs();
         this.getBlog();
       } catch (err) {
@@ -418,17 +408,18 @@ export default {
 
     async createBlog(form) {
       try {
-        await this.$axios.post("/blog", form);
+        const result = await this.$axios.post("/blogs", form);
         this.clearInputs();
-        this.getBlog();
+        this.blogs = result.data.data;
       } catch (err) {
+        console.log(err);
         console.log(err.response.data.message);
       }
     },
 
     async getBlog() {
       try {
-        const result = await this.$axios.get(`/blog`);
+        const result = await this.$axios.get(`/blogs`);
         this.blogs = result.data.data;
       } catch (err) {
         console.log(err.response.data.message);
@@ -448,7 +439,7 @@ export default {
 
     async deleteBlog(id) {
       try {
-        await this.$axios.delete(`/banner/${id}`);
+        await this.$axios.delete(`/banners/${id}`);
         this.getBlog();
         this.clearInputs();
       } catch (err) {

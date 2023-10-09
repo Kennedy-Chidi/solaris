@@ -151,8 +151,8 @@ export default {
         }
         this.onRequest = false;
       } catch (err) {
-        console.log(err);
-        // this.showMessage(err.response.data.message);
+        console.log(err.response);
+        this.showMessage("Incorrect username or password");
       }
     },
 

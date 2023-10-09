@@ -99,7 +99,7 @@
           <div class="footer-last-link-holder">
             <div class="footer-copyright-text-holder">
               <div class="footer-copyright-text">
-                Zivik Bank © {{ new Date().getFullYear() }} / All Rights
+                Solaris Bank © {{ new Date().getFullYear() }} / All Rights
                 Reserved
               </div>
             </div>

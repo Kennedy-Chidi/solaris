@@ -34,7 +34,7 @@
                   <div class="div-block-101">
                     <a href="#" class="news-text-link">Adivce,</a>
                   </div>
-                  <a href="#" class="news-text-link">Zivik Bank</a>
+                  <a href="#" class="news-text-link">Solaris Bank</a>
                 </div>
               </div>
               <div class="news-head-link-holder">
@@ -51,7 +51,7 @@
               </div>
               <div class="news-text-link-holder">
                 <nuxt-link
-                  :to="`/news-details/${blog._id}`"
+                  :to="`/news-details/${blog.id}`"
                   class="news-text-link"
                   >Read More</nuxt-link
                 >
@@ -59,10 +59,10 @@
               <div class="last-news-text-holder">
                 <div class="hold-last-news-text">
                   <div class="last-news-text">
-                    {{ formatDate(blog.date) }} -
+                    {{ formatDate(blog.time) }} -
                   </div>
                 </div>
-                <a href="#" class="last-news-texts-link">cmsmasters</a>
+                <a href="#" class="last-news-texts-link">{{ blog.author }}</a>
               </div>
             </div>
           </div>
@@ -108,7 +108,7 @@ export default {
 
     async getBlogs() {
       try {
-        const result = await this.$axios.get("/blog");
+        const result = await this.$axios.get("/blogs/?sort=-time");
         this.blogs = result.data.data;
       } catch (err) {
         console.log(err.response);
