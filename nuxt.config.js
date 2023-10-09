@@ -124,23 +124,22 @@ export default {
     ],
   },
 
-  // axios: {
-  //   baseURL: "https://solariskg.net/solaris/api",
-  //   responseType: 'json',
-  // },
-
-  // publicRuntimeConfig: {
-  //   FILE_URL: "https://solariskg.net/solaris/api/uploads",
-  // },
-
   axios: {
-    baseURL: "http://127.0.0.1/school/api",
-    responseType: "json",
+    baseURL: "https://solariskg.net/solaris/api",
   },
 
   publicRuntimeConfig: {
-    FILE_URL: "http://127.0.0.1/school/api/uploads",
+    FILE_URL: "https://solariskg.net/solaris/api/uploads",
   },
+
+  // axios: {
+  //   baseURL: "http://127.0.0.1/school/api",
+  //   responseType: "json",
+  // },
+
+  // publicRuntimeConfig: {
+  //   FILE_URL: "http://127.0.0.1/school/api/uploads",
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   target: "static",
