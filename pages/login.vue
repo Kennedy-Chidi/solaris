@@ -131,17 +131,16 @@ export default {
     },
 
     processUserData() {
-      // this.onRequest = true;
       if (!this.complete) {
       } else {
-        const form = new FormData();
-        form.append("username", this.username);
-        form.append("password", this.password);
+        const form = { username: this.username, password: this.password };
         this.handleLogin(form);
       }
     },
 
     async handleLogin(form) {
+      this.onRequest = true;
+
       try {
         const response = await this.$auth.loginWith("local", { data: form });
         if (response.data.user.status == "User") {
@@ -151,8 +150,7 @@ export default {
         }
         this.onRequest = false;
       } catch (err) {
-        console.log(err.response);
-        this.showMessage("Incorrect username or password");
+        this.showMessage(err.response.data.message);
       }
     },
 

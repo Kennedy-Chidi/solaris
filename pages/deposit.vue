@@ -30,20 +30,33 @@
                   <div>{{ company.companyRoutingNumber }}</div>
                 </div>
               </div>
-              <!-- <div style="display: none" class="type-card other select">
-                <div class="card-type-flex">
-                  <h4 class="type-card-title">Account</h4>
-                  <div>{{ user.accounts[0].name }}</div>
+
+              <div class="type-card other select">
+                <h1 class="balance-title">
+                  Click from the accounts below to Deposit.
+                </h1>
+
+                <div class="accounts-holder">
+                  <div
+                    v-for="(account, int) in accounts"
+                    :key="account.id"
+                    class="each-account"
+                    :class="{ selected: account.selected }"
+                    @click="selectAccount(account)"
+                  >
+                    <div
+                      class="account-name check"
+                      :class="{ check: int == 1, current: int == 2 }"
+                    >
+                      {{ account.currency }}
+                    </div>
+                    <h1 class="each-account-balance">
+                      {{ account.symbol
+                      }}{{ formatMoney(Number(account.balance)) }}
+                    </h1>
+                  </div>
                 </div>
-                <div class="card-type-flex">
-                  <h4 class="type-card-title">Address</h4>
-                  <div>{{ user.accounts[0].address }}</div>
-                </div>
-                <div class="card-type-flex">
-                  <h4 class="type-card-title">Balance</h4>
-                  <div>${{ formatMoney(user.accounts[0].balance) }}</div>
-                </div>
-              </div> -->
+              </div>
             </div>
           </div>
           <div class="card-title second">Enter Amount to Deposit</div>
@@ -151,12 +164,15 @@
 </template>
 
 <script>
+import SelectAccount from "../components/SelectAccount.vue";
 export default {
+  components: { SelectAccount },
   data() {
     return {
       company: "",
       amount: 0,
       account: "",
+      accounts: [],
 
       pin: "",
       newPin: "",
@@ -203,6 +219,45 @@ export default {
         return;
       } else {
         this.confirmWithdrawal = true;
+      }
+    },
+
+    reshuffleAccounts(accounts) {
+      const shuffledArray = [...accounts];
+
+      for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [shuffledArray[i], shuffledArray[j]] = [
+          shuffledArray[j],
+          shuffledArray[i],
+        ];
+      }
+
+      return this.uncheckAccounts(shuffledArray);
+    },
+
+    selectAccount(account) {
+      this.account = account;
+      this.uncheckAccounts(this.accounts);
+      account.selected = true;
+    },
+
+    uncheckAccounts(accounts) {
+      for (let i = 0; i < accounts.length; i++) {
+        accounts[i].selected = false;
+      }
+      return accounts;
+    },
+
+    async getAccount() {
+      try {
+        const result = await this.$axios.get(
+          `/accounts/user-accounts/?username=${this.user.username}`
+        );
+        this.accounts = this.reshuffleAccounts(result.data.data);
+      } catch (err) {
+        console.log(err.response.data.message);
       }
     },
 
@@ -278,15 +333,6 @@ export default {
         console.log(err);
       }
     },
-
-    async getAccount(username) {
-      try {
-        const result = await this.$axios.get(`/account/${username}`);
-        this.account = result.data.data;
-      } catch (err) {
-        console.log(err.response.data.message);
-      }
-    },
   },
   computed: {
     user() {
@@ -295,6 +341,7 @@ export default {
   },
   mounted() {
     this.getCompany();
+    this.getAccount();
   },
   head() {
     return {
@@ -310,5 +357,18 @@ export default {
 .msg {
   width: 100%;
   text-align: left;
+}
+
+.type-card.other.select {
+  cursor: default;
+}
+
+.each-account {
+  cursor: pointer;
+}
+
+.each-account.selected {
+  border: 1px solid #e524c5;
+  background: #fff6f5;
 }
 </style>

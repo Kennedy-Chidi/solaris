@@ -135,7 +135,7 @@
                       user.username
                     }}</nuxt-link>
 
-                    <nuxt-link :to="`/admin/transactions/?id=${user.id}`"
+                    <nuxt-link :to="`/admin/pending/?id=${user.id}`"
                       ><div class="filter-box">
                         <img
                           src="/images/deposit.svg"
@@ -158,10 +158,30 @@
                   </td>
                   <td>
                     <div
-                      @click="toggleUserStatus(user._id, user.status)"
+                      v-if="user.suspended"
+                      @click="
+                        toggleUserSuspension(user.id, {
+                          status: user.suspended,
+                          user: user,
+                        })
+                      "
                       class="status"
+                      :class="{ success: !user.suspended }"
                     >
-                      {{ user.status }}
+                      Pending
+                    </div>
+                    <div
+                      v-else
+                      @click="
+                        toggleUserSuspension(user.id, {
+                          status: user.suspended,
+                          user: user,
+                        })
+                      "
+                      class="status"
+                      :class="{ success: !user.suspended }"
+                    >
+                      Approved
                     </div>
                   </td>
                   <td>
@@ -199,7 +219,8 @@
           <div class="table-label">
             <div>
               <strong class="bold-text">Results</strong>: {{ itemLength }}
-              <strong class="bold-text-2">Page</strong> {{ currentPage }} of 12
+              <strong class="bold-text-2">Page</strong> {{ currentPage }} of
+              {{ pages().length }}
             </div>
             <ul
               v-if="pages().length > 1"
@@ -476,11 +497,16 @@ export default {
       return items;
     },
 
-    async toggleUserStatus(id, status) {
-      const form = new FormData();
-      form.append("status", status == "User" ? "Staff" : "User");
+    async toggleUserSuspension(id, data) {
+      const form = {
+        suspended: !data.status,
+        user: data.user,
+      };
       try {
-        await this.$axios.patch(`/users/${id}`, form);
+        const result = await this.$axios.patch(
+          `/users/toggle-suspension/?id=${id}`,
+          form
+        );
         this.getUsers();
       } catch (err) {
         this.showResponseMsg(err.response.data.message, true);

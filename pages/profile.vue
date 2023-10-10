@@ -91,48 +91,8 @@
             </div>
           </div>
         </div>
-        <div class="account-wrapper accout">
-          <div class="account-header">
-            <div>Your Active Account Details</div>
-            <img
-              src="https://uploads-ssl.webflow.com/64132ac80aba346e0aa48252/6414381497f1d10e44d293ec_switch.svg"
-              loading="lazy"
-              alt=""
-              class="switch"
-            />
-          </div>
-          <div v-if="user" class="personal-form w-form">
-            <div class="form-flex">
-              <div class="each-form-field full">
-                <label for="name-3" class="label">Account Number</label
-                ><input
-                  type="text"
-                  class="profile-input w-input"
-                  :placeholder="user.accountNumber"
-                />
-              </div>
-              <div class="each-form-field">
-                <label for="name-2" class="label">Account Name</label
-                ><input
-                  type="text"
-                  class="profile-input w-input"
-                  :placeholder="`${user.firstName} ${user.lastName}`"
-                />
-              </div>
-              <div class="each-form-field">
-                <label for="name-2" class="label">Account Balance</label
-                ><input
-                  type="text"
-                  class="profile-input w-input"
-                  maxlength="256"
-                  name="name-2"
-                  data-name="Name 2"
-                  :placeholder="formatMoney(user.totalBalance)"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+
+        <dashboard-balance />
 
         <profile-settings />
 
@@ -182,9 +142,10 @@
 
 <script>
 import CommentSettings from "../components/CommentSettings";
+import DashboardBalance from "../components/DashboardBalance.vue";
 import ProfileSettings from "../components/ProfileSettings.vue";
 export default {
-  components: { ProfileSettings, CommentSettings },
+  components: { ProfileSettings, CommentSettings, DashboardBalance },
   data() {
     return {
       code: "",

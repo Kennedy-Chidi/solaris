@@ -40,7 +40,7 @@
           >
           <nuxt-link
             v-if="user"
-            :to="`/admin/admin-profile/${user._id}`"
+            :to="`/admin/profile/?id=${user.id}`"
             class="nav-link w-inline-block"
             :class="{ active: route.includes('profile') }"
             ><img
@@ -99,6 +99,23 @@
               class="nav-icon"
             />
             <div class="link-text">Transactions</div></nuxt-link
+          >
+
+          <nuxt-link
+            :class="{ active: route.includes('pending') }"
+            to="/admin/pending"
+            class="nav-link w-inline-block"
+            ><img
+              :src="`/images/${
+                route.includes('pending')
+                  ? 'colored-deposit.svg'
+                  : 'deposit.svg'
+              }`"
+              loading="lazy"
+              alt=""
+              class="nav-icon"
+            />
+            <div class="link-text">Pending</div></nuxt-link
           >
 
           <nuxt-link

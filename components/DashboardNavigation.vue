@@ -182,7 +182,7 @@ export default {
     },
 
     async logout() {
-      await this.$auth.logout(); // this method will logout the user and make token to false on the local storage of the user browser
+      await this.$auth.logout();
     },
   },
 

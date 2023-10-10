@@ -1,20 +1,14 @@
 <template>
-  <div class="account-wrapper">
-    <h1 v-if="user" class="balance-title balance-name">
-      {{ user.firstName }} {{ user.middleName }} {{ user.lastName }}
-    </h1>
-    <h1 class="balance-title" v-if="accounts[0]">
-      Your {{ accounts[0].currency }} Balance
-    </h1>
-    <h1 class="balance" v-if="accounts[0]">
-      ${{ formatMoney(accounts[0].balance) }}
-    </h1>
-    <div class="date">{{ formatDate() }}</div>
+  <div class="type-card other select">
+    <h1 class="balance-title">Click from the accounts below to Deposit.</h1>
+
     <div class="accounts-holder">
       <div
         v-for="(account, int) in accounts"
         :key="account.id"
         class="each-account"
+        :class="{ selected: account.selected }"
+        @click="selectAccount(account)"
       >
         <div
           class="account-name check"
@@ -34,7 +28,7 @@
 export default {
   data() {
     return {
-      // user: "",
+      account: "",
       accounts: [],
     };
   },
@@ -84,7 +78,20 @@ export default {
         ];
       }
 
-      return shuffledArray;
+      return this.uncheckAccounts(shuffledArray);
+    },
+
+    selectAccount(account) {
+      this.account = account;
+      this.uncheckAccounts(this.accounts);
+      account.selected = true;
+    },
+
+    uncheckAccounts(accounts) {
+      for (let i = 0; i < accounts.length; i++) {
+        accounts[i].selected = false;
+      }
+      return accounts;
     },
 
     async getAccount() {
@@ -117,5 +124,18 @@ h1.balance-name {
   font-size: 20px;
   color: #e524c5;
   margin-bottom: 0px;
+}
+
+.type-card.other.select {
+  cursor: default;
+}
+
+.each-account {
+  cursor: pointer;
+}
+
+.each-account.selected {
+  border: 1px solid #e524c5;
+  background: #fff6f5;
 }
 </style>
