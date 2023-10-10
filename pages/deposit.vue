@@ -75,9 +75,10 @@
                 {{ msg }}
               </div>
               <div class="button-holder">
-                <span @click="beginWithdrawal" class="btn-custom w-button"
+                <span @click="beginDeposit" class="btn-custom w-button"
                   >Proceed</span
-                ><span class="btn-custom w-button">Cancel</span>
+                >
+                <span class="btn-custom w-button">Cancel</span>
               </div>
             </div>
           </div>
@@ -117,6 +118,7 @@
               maxlength="6"
               class="profile-input w-input"
               v-model="newPin"
+              @input="limitNewPin"
               placeholder="Enter Pin"
             />
           </div>
@@ -127,6 +129,7 @@
               maxlength="6"
               class="profile-input w-input"
               v-model="confirmPin"
+              @input="limitCPin"
               placeholder="Confirm Pin"
             />
           </div>
@@ -137,6 +140,7 @@
               class="profile-input w-input"
               v-model="pin"
               maxlength="6"
+              @input="limitPin"
               placeholder="Enter Pin"
             />
           </div>
@@ -164,9 +168,7 @@
 </template>
 
 <script>
-import SelectAccount from "../components/SelectAccount.vue";
 export default {
-  components: { SelectAccount },
   data() {
     return {
       company: "",
@@ -205,7 +207,44 @@ export default {
       }
     },
 
-    beginWithdrawal() {
+    limitNewPin() {
+      const sanitizedInput = this.newPin.replace(/\D/g, "");
+      const limitedInput = sanitizedInput.slice(0, 6);
+      this.newPin = limitedInput;
+      if (sanitizedInput.length > 6) {
+        this.showMessage("Maximum 6 digits allowed");
+      } else {
+        this.errorText = "";
+      }
+    },
+
+    limitCPin() {
+      const sanitizedInput = this.confirmPin.replace(/\D/g, "");
+      const limitedInput = sanitizedInput.slice(0, 6);
+      this.confirmPin = limitedInput;
+      if (sanitizedInput.length > 6) {
+        this.showMessage("Maximum 6 digits allowed");
+      } else {
+        this.errorText = "";
+      }
+    },
+
+    limitPin() {
+      const sanitizedInput = this.pin.replace(/\D/g, "");
+      const limitedInput = sanitizedInput.slice(0, 6);
+      this.pin = limitedInput;
+      if (sanitizedInput.length > 6) {
+        this.showMessage("Maximum 6 digits allowed");
+      } else {
+        this.errorText = "";
+      }
+    },
+
+    beginDeposit() {
+      if (this.account == "") {
+        this.showMessage(`Please select a currency type to continue.`);
+        return;
+      }
       if (this.amount < 5) {
         this.showMessage(`You can't Transact below 5 ${this.account.currency}`);
         return;
@@ -297,6 +336,9 @@ export default {
         dateCreated: `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`,
         time: new Date().getTime(),
         newPin: this.newPin,
+        accountId: this.account.id,
+        currency: this.currency,
+        symbol: this.symbol,
         confirmPin: this.confirmPin,
         pin: this.pin,
         status: false,
@@ -321,16 +363,6 @@ export default {
         this.company = result.data;
       } catch (err) {
         console.log(err.response.data.message);
-      }
-    },
-
-    async getUser() {
-      try {
-        const result = await this.$axios.get(`/users/get-user`);
-        this.user = result.data.user;
-        this.getAccount(this.user.username);
-      } catch (err) {
-        console.log(err);
       }
     },
   },

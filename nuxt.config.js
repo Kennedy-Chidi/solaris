@@ -141,6 +141,6 @@ export default {
   //   FILE_URL: "http://127.0.0.1/school/api/uploads",
   // },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
+  //Build Configuration: https://go.nuxtjs.dev/config-build
   target: "static",
 };

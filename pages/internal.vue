@@ -4,47 +4,49 @@
     <div class="dashboard-content">
       <dashboard-header />
       <div class="content-body">
-        <div v-if="!confirmWithdrawal" class="dashboard-card-wrap">
+        <div v-if="!confirmTransfer" class="dashboard-card-wrap">
           <div class="card-title second">
             Enter Account Number To Make A Transfer(Internal Transfer)
           </div>
-          <div class="personal-form payment-input w-form">
-            <div class="form-flex">
-              <div class="each-form-field">
-                <label for="name-7" class="label">Account Number</label
-                ><input
-                  type="number"
-                  class="profile-input w-input"
-                  v-model="receiverAccountNumber"
-                  @keyup="checkUser"
-                  placeholder="Enter Account Number"
-                />
-              </div>
+          <div class="dashboard-card-wrap">
+            <div class="card-types-wrapper">
+              <div class="card-type select">
+                <div class="each-form-field">
+                  <label for="name-7" class="label">Account Number</label
+                  ><input
+                    type="number"
+                    class="profile-input w-input"
+                    v-model="receiverAccountNumber"
+                    @keyup="checkUser"
+                    placeholder="Enter Account Number"
+                  />
+                </div>
 
-              <div class="each-form-field">
-                <label for="name-7" class="label">Account Name</label
-                ><input
-                  type="text"
-                  class="profile-input w-input"
-                  v-model="receiverAccountName"
-                  placeholder="Enter Account Name"
-                />
-              </div>
+                <div class="each-form-field">
+                  <label for="name-7" class="label">Account Name</label
+                  ><input
+                    type="text"
+                    class="profile-input w-input"
+                    v-model="receiverAccountName"
+                    placeholder="Enter Account Name"
+                  />
+                </div>
 
-              <div class="each-form-field">
-                <label for="name-7" class="label">Amount ($)</label
-                ><input
-                  type="number"
-                  class="profile-input w-input"
-                  v-model="amount"
-                  placeholder="Enter Amount"
-                />
+                <div class="each-form-field">
+                  <label for="name-7" class="label">Amount ($)</label
+                  ><input
+                    type="number"
+                    class="profile-input w-input"
+                    v-model="amount"
+                    placeholder="Enter Amount"
+                  />
+                </div>
               </div>
               <div v-if="showMsg" class="msg" :class="{ error: !colour }">
                 {{ msg }}
               </div>
               <div class="button-holder">
-                <span @click="beginWithdrawal" class="btn-custom w-button"
+                <span @click="beginTransfer" class="btn-custom w-button"
                   >Proceed</span
                 ><span class="btn-custom w-button">Cancel</span>
               </div>
@@ -118,7 +120,7 @@
           </div>
           <div class="button-holder">
             <span @click="checkPin" class="btn-custom w-button">Save</span
-            ><span @click="cancelWithdrawal" class="btn-custom w-button"
+            ><span @click="cancelTransfer" class="btn-custom w-button"
               >Back</span
             >
           </div>
@@ -150,7 +152,7 @@ export default {
       confirmPin: "",
       setPin: false,
 
-      confirmWithdrawal: false,
+      confirmTransfer: false,
 
       msg: "",
       colour: false,
@@ -175,7 +177,7 @@ export default {
       }
     },
 
-    beginWithdrawal() {
+    beginTransfer() {
       if (this.amount < 5) {
         this.showMessage(`You can't withdraw below $5 USD. `);
         return;
@@ -192,12 +194,12 @@ export default {
       } else if (this.user.username == this.receiverAccountName) {
         this.showMessage("You can not transfer to yoursel");
       } else {
-        this.confirmWithdrawal = true;
+        this.confirmTransfer = true;
       }
     },
 
-    cancelWithdrawal() {
-      this.confirmWithdrawal = false;
+    cancelTransfer() {
+      this.confirmTransfer = false;
     },
 
     checkPin() {
@@ -207,14 +209,14 @@ export default {
           return;
         } else {
           this.setPin = true;
-          this.processWithdrawal();
+          this.processTransfer();
         }
       } else if (this.pin != this.user.pin) {
         this.showMessage("Incorrect pin, please try again");
         return;
       } else if (this.pin == this.user.pin) {
         this.setPin = false;
-        this.processWithdrawal();
+        this.processTransfer();
       }
     },
 
@@ -224,12 +226,51 @@ export default {
       }
     },
 
+    reshuffleAccounts(accounts) {
+      const shuffledArray = [...accounts];
+
+      for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [shuffledArray[i], shuffledArray[j]] = [
+          shuffledArray[j],
+          shuffledArray[i],
+        ];
+      }
+
+      return this.uncheckAccounts(shuffledArray);
+    },
+
+    selectAccount(account) {
+      this.account = account;
+      this.uncheckAccounts(this.accounts);
+      account.selected = true;
+    },
+
+    uncheckAccounts(accounts) {
+      for (let i = 0; i < accounts.length; i++) {
+        accounts[i].selected = false;
+      }
+      return accounts;
+    },
+
+    async getAccount() {
+      try {
+        const result = await this.$axios.get(
+          `/accounts/user-accounts/?username=${this.user.username}`
+        );
+        this.accounts = this.reshuffleAccounts(result.data.data);
+      } catch (err) {
+        console.log(err.response.data.message);
+      }
+    },
+
     async getUserAcount() {
       try {
         const result = await this.$axios.get(
           `/users/?accountNumber=${this.receiverAccountNumber}`
         );
-        const receiver = result.data[0];
+        const receiver = result.data.data[0];
         this.colour = true;
         if (this.user.username == receiver.username) {
           this.msg = "You can not transfer to yourself";
@@ -246,7 +287,7 @@ export default {
       }
     },
 
-    async processWithdrawal() {
+    async processTransfer() {
       const form = {
         amount: this.amount,
         receiverAccountNumber: this.receiverAccountNumber,
@@ -264,6 +305,9 @@ export default {
         status: false,
         dateCreated: `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`,
         time: new Date().getTime(),
+        accountId: this.account.id,
+        currency: this.currency,
+        symbol: this.symbol,
       };
 
       try {
@@ -290,6 +334,7 @@ export default {
 
   mounted() {
     this.getCompany();
+    this.getAccount();
   },
 
   computed: {
@@ -316,5 +361,9 @@ export default {
 
 .each-form-field.block input {
   cursor: not-allowed;
+}
+
+.each-form-field {
+  width: 100%;
 }
 </style>
