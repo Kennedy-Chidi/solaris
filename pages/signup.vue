@@ -9,7 +9,7 @@
           </div>
           <div>
             <div class="sub-hero-texts change-color">
-              Complete the 7 step to get started
+              Complete the 3 step to get started
             </div>
           </div>
         </div>
@@ -21,7 +21,7 @@
     <div class="signup-content wf-section">
       <div class="contain">
         <div class="signup-hero-holder">
-          <div class="complete-steps-holder">
+          <!----<div class="complete-steps-holder">
             <div class="register-icon-side-line completed">
               <div class="sign-img-holder completed">
                 <img
@@ -89,7 +89,7 @@
               </div>
               <div class="text">Authentication Info</div>
             </div>
-          </div>
+          </div>-->
           <div class="form-holder w-form">
             <div>
               <div class="form-register-holder">
@@ -861,10 +861,10 @@ export default {
 
     async createUser(form) {
       try {
-        await this.$axios.post(`/users/signup`, form);
-        setTimeout(() => {
-          this.$router.push("/login");
-        }, 7000);
+        const result = await this.$axios.post(`/users/signup`, form);
+        this.showMessage(
+          "Your registration is successful, you will be notified via your email when your account is verified."
+        );
         this.clearInputs();
       } catch (err) {
         console.log(err.response);
@@ -977,5 +977,9 @@ label .input-file {
 
 .arrow-holder img {
   height: 100%;
+}
+
+.signup-hero-holder {
+  justify-content: center;
 }
 </style>

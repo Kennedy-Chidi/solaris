@@ -66,13 +66,13 @@
                   </div>
                 </div>
               </div>
-              <div v-if="media" class="side-contact-writeup-holder">
+              <div v-if="company" class="side-contact-writeup-holder">
                 <div class="each-side-contact-write-up">
                   <div class="headers-holder">
                     <h1 class="headers">Address</h1>
                   </div>
                   <div class="texts-headers">
-                    Cuvrystraße 53, 10997 Berlin, Germany
+                    {{ company.companyAddress }}
                   </div>
                 </div>
 
@@ -80,14 +80,14 @@
                   <div class="headers-holder">
                     <h1 class="headers">Email</h1>
                   </div>
-                  <div class="texts-headers">support@solariskg.com</div>
+                  <div class="texts-headers">{{ company.email }}</div>
                 </div>
 
                 <div class="div-block-129">
                   <div class="headers-holder">
                     <h1 class="headers">Phone</h1>
                   </div>
-                  <div class="texts-headers">+49302325678599</div>
+                  <div class="texts-headers">{{ company.companyPhone }}</div>
                 </div>
 
                 <div>
@@ -193,8 +193,7 @@ export default {
     async getCompany() {
       try {
         const result = await this.$axios.get(`/company`);
-        this.company = result.data.data[0];
-        this.media = this.company.media;
+        this.company = result.data;
         this.loadScript();
       } catch (err) {
         console.log(err);

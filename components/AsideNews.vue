@@ -69,16 +69,16 @@
           <div class="div-bottom-border">
             <div class="texts-headers">Address:</div>
             <div class="texts-headers">
-              Cuvrystraße 53, 10997 Berlin, Germany
+              {{ company.companyAddress }}
             </div>
           </div>
           <div class="div-bottom-border">
             <div class="texts-headers">Email:</div>
-            <a href="#" class="email-link">support@solariskg.com</a>
+            <a href="#" class="email-link">{{ company.email }}</a>
           </div>
           <div class="div-bottom-border">
             <div class="texts-headers">Phone:</div>
-            <div class="texts-headers">+49302325678599</div>
+            <div class="texts-headers">{{ company.companyPhone }}</div>
           </div>
         </div>
       </div>
@@ -137,6 +137,15 @@ export default {
         console.log(err.response);
       }
     },
+
+    async getCompany() {
+      try {
+        const result = await this.$axios.get(`/company`);
+        this.company = result.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
   },
   computed: {
     FILE_URL() {
@@ -145,6 +154,7 @@ export default {
   },
   mounted() {
     this.getBlogs();
+    this.getCompany();
   },
 };
 </script>

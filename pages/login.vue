@@ -7,11 +7,6 @@
           <div class="div-block-135">
             <h1 class="headings change">Login</h1>
           </div>
-          <div>
-            <div class="sub-hero-texts change-color">
-              Complete the 7 step to get started
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -21,15 +16,6 @@
           <div class="form-holder w-form login">
             <div>
               <div class="form-register-holder">
-                <div class="register-rate-holder">
-                  <div class="register-rate-completing-holder">
-                    <div class="register-rate-complete"></div>
-                    <div class="register-rate-uncomplete"></div>
-                  </div>
-                  <div class="register-rate-completed-holder">
-                    <div class="register-rate-completed">42%</div>
-                  </div>
-                </div>
                 <div class="form-section-holder">
                   <div class="each-register-holder">
                     <div class="register-top-heading-holder">
