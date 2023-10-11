@@ -82,13 +82,8 @@
                   :key="transaction.id"
                 >
                   <td>{{ int + 1 }}</td>
-                  <td>
-                    <img
-                      :src="`${FILE_URL}/${transaction.symbol}`"
-                      alt=""
-                      class="banner symbol"
-                    />
-                  </td>
+                  <td>{{ transaction.symbol }}</td>
+
                   <td>{{ transaction.username }}</td>
                   <td>{{ transaction.senderFullName }}</td>
                   <td>{{ transaction.amount }}</td>
@@ -439,6 +434,7 @@ export default {
       this.confirmState = false;
       this.editingItem = transaction;
       this.datetime = transaction.dateCreated;
+      this.transaction = transaction;
     },
 
     processTransaction() {
@@ -502,13 +498,14 @@ export default {
 
       try {
         const result = await this.$axios.patch(
-          `/transactions/?id=${this.editingItem.id}${query}`,
-          {
-            status: 1,
-          }
+          `/transactions/approve-transaction/?id=${this.editingItem.id}`,
+          this.transaction
         );
-        this.transactions = result.data.data;
-        this.itemLength = result.data.length;
+
+        console.log(result);
+        // this.transactions = result.data.data;
+        // this.itemLength = result.data.length;
+        this.getTransactions();
       } catch (err) {
         console.log(err.response.data.message);
       }
@@ -546,10 +543,13 @@ export default {
 
     async deleteTransaction(id) {
       try {
-        await this.$axios.delete(`transactions/?id=${id}`);
+        const result = await this.$axios.patch(
+          `transactions/delete-transaction/?id=${id}`,
+          this.transaction
+        );
         this.getTransactions();
       } catch (err) {
-        console.log(err.response.data);
+        console.log(err.response);
       }
     },
   },

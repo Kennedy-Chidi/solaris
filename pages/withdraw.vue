@@ -425,7 +425,6 @@ export default {
         receiverAccountNumber: this.receiverAccountNumber,
         receiverBank: this.receiverBank,
         receiverAccountName: this.receiverAccountName,
-
         newPin: this.newPin,
         confirmPin: this.confirmPin,
         pin: this.pin,
@@ -439,7 +438,7 @@ export default {
         status: false,
         senderFullName: `${this.user.firstName} ${this.user.lastName}`,
         accountId: this.account.id,
-        currency: this.currency,
+        currency: this.account.currency,
         symbol: this.symbol,
       };
 

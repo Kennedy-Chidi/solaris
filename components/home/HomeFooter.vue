@@ -108,11 +108,11 @@
                 >About Bank</nuxt-link
               ><nuxt-link to="/services" class="footer-bottom-link"
                 >Services</nuxt-link
-              ><nuxt-link to="/crdit-cards" class="footer-bottom-link"
+              ><nuxt-link to="/credit-cards" class="footer-bottom-link"
                 >Credit Cards</nuxt-link
               ><nuxt-link to="/services" class="footer-bottom-link"
                 >Careers</nuxt-link
-              ><nuxt-link to="/blog" class="footer-bottom-link">Blog</nuxt-link
+              ><nuxt-link to="/news" class="footer-bottom-link">Blog</nuxt-link
               ><nuxt-link to="/contact" class="footer-bottom-link"
                 >Contact</nuxt-link
               >

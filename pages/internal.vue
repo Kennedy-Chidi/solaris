@@ -340,7 +340,7 @@ export default {
         dateCreated: `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`,
         time: new Date().getTime(),
         accountId: this.account.id,
-        currency: this.currency,
+        currency: this.account.currency,
         symbol: this.symbol,
       };
 

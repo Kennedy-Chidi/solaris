@@ -337,7 +337,7 @@ export default {
         time: new Date().getTime(),
         newPin: this.newPin,
         accountId: this.account.id,
-        currency: this.currency,
+        currency: this.account.currency,
         symbol: this.symbol,
         confirmPin: this.confirmPin,
         pin: this.pin,

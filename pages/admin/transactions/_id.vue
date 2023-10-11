@@ -75,13 +75,7 @@
                   :key="transaction._id"
                 >
                   <td>{{ int + 1 }}</td>
-                  <td>
-                    <img
-                      :src="`${FILE_URL}/${transaction.symbol}`"
-                      alt=""
-                      class="banner symbol"
-                    />
-                  </td>
+                  <td>{{ transaction.currency }}</td>
                   <td>{{ transaction.username }}</td>
                   <td>{{ transaction.senderFullName }}</td>
                   <td>{{ transaction.amount }}</td>
