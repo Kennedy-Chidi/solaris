@@ -5,12 +5,40 @@
       <dashboard-header />
       <div class="content-body">
         <div v-if="!confirmTransfer" class="dashboard-card-wrap">
-          <div class="card-title second">
-            Enter Account Number To Make A Transfer(Internal Transfer)
-          </div>
-          <div class="dashboard-card-wrap">
+          <div class="card-types">
             <div class="card-types-wrapper">
-              <div class="card-type select">
+              <div class="card-title">
+                Deposit to the Account below to Fund your account
+              </div>
+
+              <div class="type-card other select">
+                <h1 class="balance-title">
+                  Select any currency below to transfer from.
+                </h1>
+
+                <div class="accounts-holder">
+                  <div
+                    v-for="(account, int) in accounts"
+                    :key="account.id"
+                    class="each-account"
+                    :class="{ selected: account.selected }"
+                    @click="selectAccount(account)"
+                  >
+                    <div
+                      class="account-name check"
+                      :class="{ check: int == 1, current: int == 2 }"
+                    >
+                      {{ account.currency }}
+                    </div>
+                    <h1 class="each-account-balance">
+                      {{ account.symbol
+                      }}{{ formatMoney(Number(account.balance).toFixed(2)) }}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+
+              <div class="type-card select">
                 <div class="each-form-field">
                   <label for="name-7" class="label">Account Number</label
                   ><input
@@ -42,15 +70,15 @@
                   />
                 </div>
               </div>
-              <div v-if="showMsg" class="msg" :class="{ error: !colour }">
-                {{ msg }}
-              </div>
-              <div class="button-holder">
-                <span @click="beginTransfer" class="btn-custom w-button"
-                  >Proceed</span
-                ><span class="btn-custom w-button">Cancel</span>
-              </div>
             </div>
+          </div>
+          <div v-if="showMsg" class="msg" :class="{ error: !colour }">
+            {{ msg }}
+          </div>
+          <div class="button-holder">
+            <span @click="beginTransfer" class="btn-custom w-button"
+              >Proceed</span
+            ><span class="btn-custom w-button">Cancel</span>
           </div>
         </div>
 
@@ -60,7 +88,7 @@
             <div class="type-card select account">
               <div class="card-type-flex">
                 <h4 class="type-card-title">Type</h4>
-                <div>Not Available</div>
+                <div>{{ account.currency }}</div>
               </div>
               <div class="card-type-flex">
                 <h4 class="type-card-title">Name</h4>
@@ -147,6 +175,8 @@ export default {
       receiverAccount: "",
       company: "",
 
+      account: "",
+      accounts: [],
       pin: "",
       newPin: "",
       confirmPin: "",
@@ -178,21 +208,25 @@ export default {
     },
 
     beginTransfer() {
+      if (this.account == "") {
+        this.showMessage(`Please select a currency type to continue.`);
+        return;
+      }
       if (this.amount < 5) {
-        this.showMessage(`You can't withdraw below $5 USD. `);
+        this.showMessage(`You can't Transact below 5 ${this.account.currency}`);
         return;
       }
-      if (this.receiverAccountNumber == "" || this.receiverAccountName == "") {
-        this.showMessage("Please fill in the necessary fields above");
-        return;
-      }
-      if (this.amount > this.user.totalBalance) {
+      if (this.amount > this.account.balance) {
         this.showMessage(
-          "Sorry you have insufficient fund for this transaction"
+          `You have insufficient fund in your ${this.account.currency} account.`
         );
         return;
-      } else if (this.user.username == this.receiverAccountName) {
-        this.showMessage("You can not transfer to yoursel");
+      }
+      if (this.receiverAccountNumber == "") {
+        this.showMessage(
+          "Please fill in the receiver account number to continue."
+        );
+        return;
       } else {
         this.confirmTransfer = true;
       }
@@ -365,5 +399,14 @@ export default {
 
 .each-form-field {
   width: 100%;
+}
+
+.each-account {
+  cursor: pointer;
+}
+
+.each-account.selected {
+  border: 1px solid #e524c5;
+  background: #fff6f5;
 }
 </style>
