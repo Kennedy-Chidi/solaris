@@ -226,7 +226,7 @@ export default {
 }
 
 .my-element.loan:hover::before {
-  content: "Sorry, virtual card is currently not available at the moment.";
+  content: "Sorry, loan is currently not available at the moment.";
 }
 
 .my-element:hover::before {

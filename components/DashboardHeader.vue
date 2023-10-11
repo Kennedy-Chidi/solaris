@@ -20,7 +20,7 @@
           src="https://uploads-ssl.webflow.com/64132ac80aba346e0aa48252/641335f055e38d2c4db8492c_notification.svg"
           loading="lazy"
           alt=""
-          class="top-icons"
+          class="top-icons dash"
         />
       </div>
       <div @click="goToProfile" v-if="user" class="each-icon-wrapper round">
@@ -37,7 +37,7 @@
           src="https://uploads-ssl.webflow.com/64132ac80aba346e0aa48252/641335f0fbeda4ab78bee286_logout.svg"
           loading="lazy"
           alt=""
-          class="top-icons add"
+          class="top-icons add dash"
         />
       </div>
     </div>
@@ -142,5 +142,9 @@ export default {
 <style>
 .each-icon-wrapper .top-icons {
   margin: 0 auto;
+}
+
+.top-icons.dash {
+  width: 18px;
 }
 </style>

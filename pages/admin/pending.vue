@@ -79,7 +79,7 @@
               <tbody>
                 <tr
                   v-for="(transaction, int) in transactions"
-                  :key="transaction._id"
+                  :key="transaction.id"
                 >
                   <td>{{ int + 1 }}</td>
                   <td>
@@ -126,7 +126,8 @@
                       @click="
                         deleteConfirmation(
                           'Are you sure you want to delete this transaction?',
-                          transaction._id
+                          transaction.id,
+                          transaction
                         )
                       "
                     >
@@ -363,10 +364,11 @@ export default {
       }
     },
 
-    deleteConfirmation(msg, id) {
+    deleteConfirmation(msg, id, transaction) {
       this.deleteId = id;
       this.confirmMessage = msg;
       this.confirmState = false;
+      this.transaction = transaction;
     },
 
     formatDate(data) {
@@ -544,7 +546,7 @@ export default {
 
     async deleteTransaction(id) {
       try {
-        await this.$axios.delete(`transactions/${id}`);
+        await this.$axios.delete(`transactions/?id=${id}`);
         this.getTransactions();
       } catch (err) {
         console.log(err.response.data);

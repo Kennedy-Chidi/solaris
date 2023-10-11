@@ -39,7 +39,7 @@
               </div>
 
               <div class="type-card select">
-                <div class="each-form-field">
+                <div class="each-form-field internal">
                   <label for="name-7" class="label">Account Number</label
                   ><input
                     type="number"
@@ -50,7 +50,7 @@
                   />
                 </div>
 
-                <div class="each-form-field">
+                <div class="each-form-field internal">
                   <label for="name-7" class="label">Account Name</label
                   ><input
                     type="text"
@@ -60,7 +60,7 @@
                   />
                 </div>
 
-                <div class="each-form-field">
+                <div class="each-form-field internal">
                   <label for="name-7" class="label">Amount ($)</label
                   ><input
                     type="number"
@@ -397,7 +397,7 @@ export default {
   cursor: not-allowed;
 }
 
-.each-form-field {
+.each-form-field.internal {
   width: 100%;
 }
 

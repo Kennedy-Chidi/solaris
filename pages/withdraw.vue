@@ -4,7 +4,7 @@
     <div class="dashboard-content">
       <dashboard-header />
       <div class="content-body">
-        <div v-if="!confirmWithdrawal" class="dashboard-card-wrap">
+        <!-- <div v-if="!confirmWithdrawal" class="dashboard-card-wrap">
           <div class="card-title second">
             Enter Account Details To Withdraw To
           </div>
@@ -65,6 +65,103 @@
               </div>
             </div>
           </div>
+        </div> -->
+
+        <div v-if="!confirmWithdrawal" class="dashboard-card-wrap">
+          <div class="card-types">
+            <div class="card-types-wrapper">
+              <div class="type-card other select">
+                <h1 class="balance-title">
+                  Select any currency below to transfer from.
+                </h1>
+
+                <div class="accounts-holder">
+                  <div
+                    v-for="(account, int) in accounts"
+                    :key="account.id"
+                    class="each-account"
+                    :class="{ selected: account.selected }"
+                    @click="selectAccount(account)"
+                  >
+                    <div
+                      class="account-name check"
+                      :class="{ check: int == 1, current: int == 2 }"
+                    >
+                      {{ account.currency }}
+                    </div>
+                    <h1 class="each-account-balance">
+                      {{ account.symbol
+                      }}{{ formatMoney(Number(account.balance).toFixed(2)) }}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+
+              <div class="type-card select">
+                <div class="each-form-field withdrawal">
+                  <label for="name-7" class="label">Bank Name</label
+                  ><input
+                    type="text"
+                    class="profile-input w-input"
+                    v-model="receiverBank"
+                    placeholder="Enter Bank Name"
+                  />
+                </div>
+
+                <div class="each-form-field withdrawal">
+                  <label for="name-7" class="label">Account Name</label
+                  ><input
+                    type="text"
+                    class="profile-input w-input"
+                    v-model="receiverAccountName"
+                    placeholder="Enter Account Name"
+                  />
+                </div>
+                <div class="each-form-field withdrawal">
+                  <label for="name-7" class="label">Account Number</label
+                  ><input
+                    type="number"
+                    class="profile-input w-input"
+                    v-model="receiverAccountNumber"
+                    placeholder="Enter Account Number"
+                  />
+                </div>
+                <div class="each-form-field withdrawal">
+                  <label for="name-7" class="label">Routing Number</label
+                  ><input
+                    type="number"
+                    class="profile-input w-input"
+                    placeholder="Enter Routing Number"
+                  />
+                </div>
+                <div class="each-form-field withdrawal">
+                  <label for="name-7" class="label">Amount ($)</label
+                  ><input
+                    type="number"
+                    class="profile-input w-input"
+                    v-model="amount"
+                    placeholder="Enter Amount"
+                  />
+                </div>
+                <div v-if="showMsg" class="msg" :class="{ error: !colour }">
+                  {{ msg }}
+                </div>
+                <div class="button-holder">
+                  <span @click="beginWithdrawal" class="btn-custom w-button"
+                    >Proceed</span
+                  ><span class="btn-custom w-button">Cancel</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div v-if="showMsg" class="msg" :class="{ error: !colour }">
+            {{ msg }}
+          </div>
+          <div class="button-holder">
+            <span @click="beginTransfer" class="btn-custom w-button"
+              >Proceed</span
+            ><span class="btn-custom w-button">Cancel</span>
+          </div> -->
         </div>
 
         <div v-else class="dashboard-card-wrap">
@@ -107,6 +204,7 @@
               class="profile-input w-input"
               v-model="newPin"
               placeholder="Enter Pin"
+              @input="limitPin"
             />
           </div>
           <div v-if="!user.pin" class="each-form-field">
@@ -115,6 +213,7 @@
               type="password"
               class="profile-input w-input"
               maxlength="6"
+              @input="limitCPin"
               v-model="confirmPin"
               placeholder="Confirm Pin"
             />
@@ -125,6 +224,7 @@
               type="password"
               class="profile-input w-input"
               v-model="pin"
+              @input="limitPin"
               maxlength="6"
               placeholder="Enter Pin"
             />
@@ -160,8 +260,9 @@ export default {
       receiverAccountNumber: "",
       receiverAccountName: "",
       amount: 0,
-      account: "",
       company: "",
+      account: "",
+      accounts: [],
 
       pin: "",
       newPin: "",
@@ -196,18 +297,25 @@ export default {
     },
 
     beginWithdrawal() {
+      if (this.account == "") {
+        this.showMessage(`Please select a currency type to continue.`);
+        return;
+      }
+
       if (this.amount < 5) {
         this.showMessage(`You can't transact below 5 ${this.account.currency}`);
         return;
       }
+
       if (
         this.receiverBank == "" ||
-        this.receiverAddress == "" ||
-        this.receiverName == ""
+        this.receiverAccountNumber == "" ||
+        this.receiverAccountName == ""
       ) {
         this.showMessage("Please fill in the necessary fields above");
         return;
       }
+
       if (this.amount > this.user.totalBalance) {
         this.showMessage(
           "Sorry you have insufficient fund for this transaction"
@@ -239,12 +347,84 @@ export default {
       }
     },
 
+    limitNewPin() {
+      const sanitizedInput = this.newPin.replace(/\D/g, "");
+      const limitedInput = sanitizedInput.slice(0, 6);
+      this.newPin = limitedInput;
+      if (sanitizedInput.length > 6) {
+        this.showMessage("Maximum 6 digits allowed");
+      } else {
+        this.errorText = "";
+      }
+    },
+
+    limitCPin() {
+      const sanitizedInput = this.confirmPin.replace(/\D/g, "");
+      const limitedInput = sanitizedInput.slice(0, 6);
+      this.confirmPin = limitedInput;
+      if (sanitizedInput.length > 6) {
+        this.showMessage("Maximum 6 digits allowed");
+      } else {
+        this.errorText = "";
+      }
+    },
+
+    limitPin() {
+      const sanitizedInput = this.pin.replace(/\D/g, "");
+      const limitedInput = sanitizedInput.slice(0, 6);
+      this.pin = limitedInput;
+      if (sanitizedInput.length > 6) {
+        this.showMessage("Maximum 6 digits allowed");
+      } else {
+        this.errorText = "";
+      }
+    },
+
+    reshuffleAccounts(accounts) {
+      const shuffledArray = [...accounts];
+
+      for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [shuffledArray[i], shuffledArray[j]] = [
+          shuffledArray[j],
+          shuffledArray[i],
+        ];
+      }
+
+      return this.uncheckAccounts(shuffledArray);
+    },
+
+    selectAccount(account) {
+      this.account = account;
+      this.uncheckAccounts(this.accounts);
+      account.selected = true;
+    },
+
+    uncheckAccounts(accounts) {
+      for (let i = 0; i < accounts.length; i++) {
+        accounts[i].selected = false;
+      }
+      return accounts;
+    },
+
+    async getAccount() {
+      try {
+        const result = await this.$axios.get(
+          `/accounts/user-accounts/?username=${this.user.username}`
+        );
+        this.accounts = this.reshuffleAccounts(result.data.data);
+      } catch (err) {
+        console.log(err.response.data.message);
+      }
+    },
+
     async processWithdrawal() {
       const form = {
         amount: this.amount,
         receiverAccountNumber: this.receiverAccountNumber,
         receiverBank: this.receiverBank,
-        receiverName: this.receiverAccountName,
+        receiverAccountName: this.receiverAccountName,
 
         newPin: this.newPin,
         confirmPin: this.confirmPin,
@@ -257,6 +437,10 @@ export default {
         dateCreated: `${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`,
         time: new Date().getTime(),
         status: false,
+        senderFullName: `${this.user.firstName} ${this.user.lastName}`,
+        accountId: this.account.id,
+        currency: this.currency,
+        symbol: this.symbol,
       };
 
       try {
@@ -281,6 +465,10 @@ export default {
     },
   },
 
+  mounted() {
+    this.getAccount();
+  },
+
   computed: {
     user() {
       return this.$store.state.auth.user;
@@ -295,5 +483,16 @@ export default {
 .msg {
   width: 100%;
   text-align: left;
+}
+
+.each-form-field.withdrawal {
+  width: 100%;
+}
+
+.btn-custom {
+  margin-right: 20px;
+  padding: 5px 7px;
+  border-radius: 5px;
+  background-color: #e53b24;
 }
 </style>

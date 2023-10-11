@@ -69,6 +69,15 @@
                 />
               </div>
               <div class="each-form-field">
+                <label for="name-3" class="label">Account Number</label
+                ><input
+                  type="text"
+                  class="profile-input w-input"
+                  :placeholder="user.accountNumber"
+                  disabled
+                />
+              </div>
+              <div class="each-form-field">
                 <label for="name-2" class="label">Date of Birth</label
                 ><input
                   type="text"
