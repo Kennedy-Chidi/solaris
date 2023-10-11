@@ -542,6 +542,10 @@
                 <div v-if="showMsg" class="msg" :class="{ error: !colour }">
                   {{ msg }}
                 </div>
+                <div v-if="signup" class="msg" :class="{ error: !colour }">
+                  Congratulations your registration is successfull, kindly wait
+                  while we verify your details via your email.
+                </div>
                 <div class="register-button-holder">
                   <div
                     v-if="formPage > 0"
@@ -633,6 +637,8 @@ export default {
       password: "",
       cPassword: "",
 
+      signup: false,
+
       incomeArray: ["Salary", "Trading", "Freelancing", "Technician"],
 
       formSections: [],
@@ -661,9 +667,6 @@ export default {
     clearInputs() {
       this.colour = true;
       this.onRequest = false;
-      this.showMessage(
-        "Congratulations! You have signed up successfully, please login to continue"
-      );
       this.firstName = "";
       this.middleName = "";
       this.lastName = "";
@@ -815,6 +818,18 @@ export default {
     },
 
     processUserData() {
+      if (this.profilePicture == "") {
+        this.onRequest = false;
+        this.showMessage("Please choose a passport photograph to continue");
+        return;
+      }
+      if (this.idPicture == "") {
+        this.onRequest = false;
+        this.showMessage(
+          "Please upload your identification document photo to continue."
+        );
+        return;
+      }
       if (this.dob == "") {
         this.onRequest = false;
         this.showMessage("Please choose date of birth");
@@ -862,12 +877,10 @@ export default {
     async createUser(form) {
       try {
         const result = await this.$axios.post(`/users/signup`, form);
-        this.showMessage(
-          "Your registration is successful, you will be notified via your email when your account is verified."
-        );
+        this.showMessage(result.data);
         this.clearInputs();
       } catch (err) {
-        console.log(err.response);
+        // console.log(err.response);
         this.showMessage(err.response.data.message);
       }
     },

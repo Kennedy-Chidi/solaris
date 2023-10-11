@@ -1,7 +1,10 @@
 <template>
   <div class="faq">
     <home-header />
-    <div class="faq-hero wf-section">
+    <div
+      class="faq-hero wf-section"
+      :style="{ backgroundImage: `url(${FILE_URL}/${banner.bannerImage})` }"
+    >
       <div class="contain">
         <div class="hero-holder">
           <div class="div-block-53"><h1 class="headings">Faq</h1></div>
@@ -19,7 +22,7 @@
           <div class="faq-holder">
             <div
               v-for="faq in faqs"
-              :key="faq._id"
+              :key="faq.id"
               class="each-faq-holder active"
             >
               <div class="faq-heading-holder">
@@ -48,7 +51,10 @@
             </div>
           </div>
           <div class="faq-background-img-holder">
-            <div class="faq-background-img"></div>
+            <div
+              class="faq-background-img"
+              style="background-image: url('/images/happyClient.jpg')"
+            ></div>
             <div class="faq-number-holder">
               <img
                 src="https://uploads-ssl.webflow.com/6405430dbac1369b9494f2e3/64140af5f4c32a16eaab6889_call-us-icon%201.svg"
@@ -56,10 +62,10 @@
                 alt=""
                 class="image-43"
               />
-              <div v-if="company.media">
+              <div>
                 <h5 class="heading-7">CALL ANYTIME</h5>
-                <div v-if="company.media[2]" class="text-block-6">
-                  {{ company.media[2].text }}<br />
+                <div v-if="company" class="text-block-6">
+                  {{ company.companyPhone }}<br />
                 </div>
               </div>
             </div>
@@ -78,6 +84,7 @@ export default {
     return {
       company: "",
       faqs: [],
+      banner: "",
     };
   },
   methods: {
@@ -105,7 +112,7 @@ export default {
     async getCompany() {
       try {
         const result = await this.$axios.get("/company");
-        this.company = await result.data.data[0];
+        this.company = result.data;
       } catch (err) {
         console.log(err.response);
       }
@@ -113,17 +120,32 @@ export default {
 
     async getQuestion() {
       try {
-        const result = await this.$axios.get("/faq");
+        const result = await this.$axios.get("/faqs");
         this.faqs = await result.data.data;
       } catch (err) {
         console.log(err.response);
       }
+    },
+
+    async getBanner() {
+      try {
+        const result = await this.$axios.get("/banners/?bannerCategory=FAQ");
+        this.banner = result.data.data[0];
+      } catch (err) {
+        console.log(err.response);
+      }
+    },
+  },
+  computed: {
+    FILE_URL() {
+      return this.$store.state.fileURL;
     },
   },
   mounted() {
     this.loadScript();
     this.getQuestion();
     this.getCompany();
+    this.getBanner();
   },
   components: { HomeFooter },
 };

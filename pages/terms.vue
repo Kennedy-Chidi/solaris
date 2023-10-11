@@ -1,7 +1,10 @@
 <template>
   <div class="faq">
     <home-header />
-    <div class="faq-hero wf-section">
+    <div
+      class="faq-hero wf-section"
+      :style="{ backgroundImage: `url(${FILE_URL}/${banner.bannerImage})` }"
+    >
       <div class="contain">
         <div class="hero-holder">
           <div class="div-block-53">
@@ -22,7 +25,7 @@
             <div class="each-faq-holder active">
               <div class="faq-heading-holder">
                 <h1 class="faq-header active">
-                  The Terms & Conditions of AS Finance
+                  The Terms & Conditions of Solaris KG
                 </h1>
               </div>
               <div class="faq-text-holder">
@@ -60,6 +63,7 @@ export default {
   data() {
     return {
       company: "",
+      banner: "",
       terms: [],
     };
   },
@@ -85,10 +89,11 @@ export default {
         }
       }
     },
+
     async getCompany() {
       try {
         const result = await this.$axios.get("/company");
-        this.company = await result.data.data[0];
+        this.company = await result.data;
       } catch (err) {
         console.log(err.response);
       }
@@ -102,11 +107,28 @@ export default {
         console.log(err.response);
       }
     },
+
+    async getBanner() {
+      try {
+        const result = await this.$axios.get("/banners/?bannerCategory=Terms");
+        this.banner = result.data.data[0];
+      } catch (err) {
+        console.log(err.response);
+      }
+    },
   },
+
   mounted() {
     this.loadScript();
     this.getTerms();
     this.getCompany();
+    this.getBanner();
+  },
+
+  computed: {
+    FILE_URL() {
+      return this.$store.state.fileURL;
+    },
   },
   components: { HomeFooter },
 };

@@ -114,7 +114,7 @@
                 @click="
                   showConfirmation(
                     'Are you sure you want to delete this Banner',
-                    item._id
+                    item.id
                   )
                 "
               >
@@ -285,6 +285,7 @@ export default {
         "FAQ",
         "Contact",
         "Banking",
+        "Terms",
       ],
       showBannerCategoryList: false,
       bannerCategory: "Select Category",
@@ -416,7 +417,7 @@ export default {
 
     async deleteBanner(id) {
       try {
-        await this.$axios.delete(`/banner/${id}`);
+        await this.$axios.delete(`/banners/?id=${id}`);
         this.getBanner();
         this.clearInputs();
       } catch (err) {

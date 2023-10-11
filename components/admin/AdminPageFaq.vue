@@ -64,7 +64,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(faq, int) in faqs" :key="faq._id">
+          <tr v-for="(faq, int) in faqs" :key="faq.id">
             <td>{{ int + 1 }}</td>
 
             <td>{{ faq.category }}</td>
@@ -72,7 +72,7 @@
             <td>{{ faq.answer }}</td>
             <td>
               <div
-                @click="toggleFAQStatus(faq._id, faq.status)"
+                @click="toggleFAQStatus(faq.id, faq.status)"
                 class="status"
                 :class="{ success: faq.status }"
                 v-if="faq.status"
@@ -80,7 +80,7 @@
                 Active
               </div>
               <div
-                @click="toggleFAQStatus(faq._id, faq.status)"
+                @click="toggleFAQStatus(faq.id, faq.status)"
                 :class="{ success: faq.status }"
                 class="status"
                 v-else
@@ -102,7 +102,7 @@
                 @click="
                   showConfirmation(
                     'Are you sure you want to delete this Question',
-                    faq._id
+                    faq.id
                   )
                 "
               >
@@ -278,7 +278,7 @@ export default {
       this.answer = faq.answer;
       this.question = faq.question;
       this.category = faq.category;
-      this.editingId = faq._id;
+      this.editingId = faq.id;
       this.editingState = true;
     },
 
@@ -298,7 +298,7 @@ export default {
 
     async updateFAQ(form) {
       try {
-        await this.$axios.patch(`/faq/${this.editingId}`, form);
+        await this.$axios.patch(`/faqs/?id=${this.editingId}`, form);
         this.getFAQ();
         this.clearInput();
       } catch (err) {
@@ -308,7 +308,7 @@ export default {
 
     async createFAQ(form) {
       try {
-        await this.$axios.post(`/faq`, form);
+        await this.$axios.post(`/faqs`, form);
         this.getFAQ();
         this.clearInput();
       } catch (err) {
@@ -318,7 +318,7 @@ export default {
 
     async getFAQ() {
       try {
-        const result = await this.$axios.get("/faq");
+        const result = await this.$axios.get("/faqs");
         this.faqs = result.data.data;
       } catch (err) {
         console.log(err.response.data.message);
@@ -327,7 +327,7 @@ export default {
 
     async deleteFAQ() {
       try {
-        await this.$axios.delete(`/faq/${this.deleteId}`);
+        await this.$axios.delete(`/faqs/?id=${this.deleteId}`);
         this.getFAQ();
         this.deleteId = "";
       } catch (err) {

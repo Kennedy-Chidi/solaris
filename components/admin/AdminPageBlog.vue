@@ -68,7 +68,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, int) in blogs" :key="item._id">
+          <tr v-for="(item, int) in blogs" :key="item.id">
             <td>{{ int + 1 }}</td>
             <td>
               <img :src="`${FILE_URL}/${item.banner}`" alt="" class="banner" />
@@ -83,7 +83,7 @@
             <td>{{ item.content.slice(0, 100) }}</td>
             <td>
               <div
-                @click="toggleBlogStatus(item._id, item.status)"
+                @click="toggleBlogStatus(item.id, item.status)"
                 class="status"
                 :class="{ success: item.status }"
                 v-if="item.status"
@@ -91,7 +91,7 @@
                 Active
               </div>
               <div
-                @click="toggleBlogStatus(item._id, item.status)"
+                @click="toggleBlogStatus(item.id, item.status)"
                 :class="{ success: item.status }"
                 class="status"
                 v-else
@@ -113,7 +113,7 @@
                 @click="
                   showConfirmation(
                     'Are you sure you want to delete this Banner',
-                    item._id
+                    item.id
                   )
                 "
               >
@@ -366,7 +366,7 @@ export default {
     },
 
     prepareBlog(blog) {
-      this.editingId = blog._id;
+      this.editingId = blog.id;
       this.editingState = true;
       this.banner = blog.banner;
       this.category = blog.category;
@@ -439,7 +439,7 @@ export default {
 
     async deleteBlog(id) {
       try {
-        await this.$axios.delete(`/banners/${id}`);
+        await this.$axios.delete(`/banners/?id=${id}`);
         this.getBlog();
         this.clearInputs();
       } catch (err) {
