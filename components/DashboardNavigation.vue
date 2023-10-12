@@ -118,7 +118,7 @@
             <div>Transactions</div></nuxt-link
           >
         </li>
-        <li>
+        <!-- <li>
           <nuxt-link
             to="/notification"
             class="nav-links w-inline-block"
@@ -131,7 +131,7 @@
             />
             <div>Notifications</div></nuxt-link
           >
-        </li>
+        </li> -->
         <li @click="logout">
           <a href="#" class="nav-links w-inline-block"
             ><img

@@ -24,7 +24,7 @@
         />
       </div>
       <div class="volume-label">Make Fast <br />Transfer</div>
-      <h1 class="volume-title">Transfer</h1>
+      <h1 class="volume-title">Internal</h1>
       <h1 class="volume-title value creams">${{ transferVolume }}</h1>
     </div>
     <div class="each-volume pink">
@@ -69,17 +69,17 @@ export default {
   methods: {
     setVolumes(volumes) {
       volumes.forEach((el) => {
-        if (el._id == "withdrawal") {
-          this.withdrawalVolume = el.volume;
+        if (el.transactionType == "Withdrawal") {
+          this.withdrawalVolume = el.totalAmount;
         }
-        if (el._id == "deposit") {
-          this.depositVolume = el.volume;
+        if (el.transactionType == "Deposit") {
+          this.depositVolume = el.totalAmount;
         }
-        if (el._id == "transfer") {
-          this.transferVolume = el.volume;
+        if (el.transactionType == "Internal") {
+          this.transferVolume = el.totalAmount;
         }
-        if (el._id == "loan") {
-          this.loanVolume = el.volume;
+        if (el.transactionType == "Loan") {
+          this.loanVolume = el.totalAmount;
         }
       });
     },
@@ -95,8 +95,9 @@ export default {
     async getTransactionVolume(username) {
       const query = `?username=${username}`;
       try {
-        const result = await this.$axios.get(`/transactions/${query}`);
-        this.setVolumes(result.data.data);
+        const result = await this.$axios.get(`/transactions/volumn/${query}`);
+        console.log(result);
+        this.setVolumes(result.data);
       } catch (err) {
         console.log(err.response.data.message);
       }
@@ -113,7 +114,7 @@ export default {
     },
   },
   mounted() {
-    // this.getTransactionVolume(this.user.username);
+    this.getTransactionVolume(this.user.username);
   },
 
   computed: {
