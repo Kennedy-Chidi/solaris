@@ -310,29 +310,20 @@ export default {
 
     prepareEmailEdit(email) {
       this.editState = true;
-      this.editId = email._id;
+      this.editId = email.id;
       this.content = email.content;
       this.title = email.title;
-      this.banner = email.banner;
-      this.greeting = email.greeting;
-      this.warning = email.warning;
-      this.headerColor = email.headerColor;
-      this.footerColor = email.footerColor;
-      this.mainColor = email.mainColor;
+      this.name = email.name;
     },
 
     async updateEmail() {
-      const form = new FormData();
-      form.append("banner", this.banner);
-      form.append("title", this.title);
-      form.append("content", this.content);
-      form.append("headerColor", this.headerColor);
-      form.append("footerColor", this.footerColor);
-      form.append("mainColor", this.mainColor);
-      form.append("greeting", this.greeting);
-      form.append("warning", this.warning);
+      const form = {
+        title: this.title,
+        content: this.content,
+        name: this.name,
+      };
       try {
-        await this.$axios.patch(`/emails/${this.editId}`, form);
+        await this.$axios.patch(`/emails/?id=${this.editId}`, form);
         this.getEmails();
         this.clearInputs();
       } catch (err) {
