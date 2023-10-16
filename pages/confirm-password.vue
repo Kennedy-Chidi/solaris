@@ -107,12 +107,15 @@ export default {
       const form = {
         password: this.password,
         cPassword: this.cPassword,
+        token: this.$route.query.token,
       };
+
+      if (this.password != this.cPassword) {
+        this.showMessage("Passwords are not the same, try again.");
+        return;
+      }
       try {
-        await this.$axios.patch(
-          `/users/reset-password/${this.$route.query.token}`,
-          form
-        );
+        await this.$axios.patch(`/users/reset-password`, form);
         this.colour = true;
         this.cPassword = "";
         this.password = "";

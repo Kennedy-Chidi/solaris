@@ -25,14 +25,12 @@ export default {
       },
       {
         property: "og:image",
-        content:
-          "https://uploads-ssl.webflow.com/63f116b57a954c6732843cb7/63f15d307d7541870aab3e0b_Kenny-Logo%20(1)-p-500.png",
+        content: "https://solariskg.com/SolarisBlack.png",
       },
       { property: "twitter:title", content: "Bank Manager" },
       {
         property: "twitter:image",
-        content:
-          "https://uploads-ssl.webflow.com/63f116b57a954c6732843cb7/63f15d307d7541870aab3e0b_Kenny-Logo%20(1)-p-500.png",
+        content: "https://solariskg.com/SolarisBlack.png",
       },
       {
         property: "twitter:description",
