@@ -83,7 +83,7 @@
             <div class="each-profile-holder">
               <div class="profile">
                 <img
-                  src="/images/2-1.jpg"
+                  src="https://th.bing.com/th/id/OIP.RsoBQA0goxLF5dY2VgCewgAAAA?pid=ImgDet&rs=1"
                   loading="lazy"
                   alt=""
                   class="image-20"
@@ -166,9 +166,9 @@
                 </div>
                 <div class="text-style-holder-2">
                   <div class="text-style">
-                    Account currency: USD, EURDiscounts and privileges from Visa
-                    and MasterCard payment systemsIssue of additional bank
-                    cardsCard issue within a payroll card programme
+                    Account currency: USD, EUR Discounts and privileges from
+                    Visa and MasterCard payment systems Issue of additional bank
+                    cards Card issue within a payroll card programme
                   </div>
                 </div>
               </div>
