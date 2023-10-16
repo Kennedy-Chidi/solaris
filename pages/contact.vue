@@ -83,12 +83,12 @@
                   <div class="texts-headers">{{ company.email }}</div>
                 </div>
 
-                <div class="div-block-129">
+                <!-- <div class="div-block-129">
                   <div class="headers-holder">
                     <h1 class="headers">Phone</h1>
                   </div>
                   <div class="texts-headers">{{ company.companyPhone }}</div>
-                </div>
+                </div> -->
 
                 <div>
                   <div class="headers-holder">
