@@ -88,7 +88,7 @@
                   <td>{{ transaction.senderFullName }}</td>
                   <td>{{ transaction.amount }}</td>
                   <td>{{ transaction.transactionType }}</td>
-                  <td>{{ formatDate(transaction.dateCreated) }}</td>
+                  <td>{{ formatDate(transaction.time) }}</td>
                   <td>{{ transaction.receiverBank }}</td>
                   <td>{{ transaction.receiverAccountName }}</td>
                   <td>{{ transaction.receiverAccountNumber }}</td>
