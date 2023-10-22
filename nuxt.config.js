@@ -131,12 +131,12 @@ export default {
   },
 
   // axios: {
-  //   baseURL: "http://127.0.0.1/school/api",
+  //   baseURL: "http://127.0.0.1/solaris/api",
   //   responseType: "json",
   // },
 
   // publicRuntimeConfig: {
-  //   FILE_URL: "http://127.0.0.1/school/api/uploads",
+  //   FILE_URL: "http://127.0.0.1/solaris/api/uploads",
   // },
 
   //Build Configuration: https://go.nuxtjs.dev/config-build

@@ -185,7 +185,7 @@
                     </div>
                   </td>
                   <td>
-                    <nuxt-link :to="`/admin/add-user/${user._id}`"
+                    <nuxt-link :to="`/admin/add-user/${user.id}`"
                       ><div class="filter-box">
                         <img
                           src="/images/edit-gray.svg"
@@ -200,7 +200,7 @@
                       @click="
                         deleteConfirmation(
                           'Are you sure you want to delete this user?',
-                          user._id
+                          user.id
                         )
                       "
                     >
@@ -549,8 +549,8 @@ export default {
 
     async deleteUser() {
       try {
-        const result = await this.$axios.delete(`/users/${this.deleteId}`);
-        this.users = this.checkItems(result.data.data);
+        const result = await this.$axios.delete(`/users/?id=${this.deleteId}`);
+        this.getUsers();
       } catch (err) {
         console.log(err.response.data.message);
       }
