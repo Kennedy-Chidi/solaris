@@ -316,9 +316,9 @@ export default {
         return;
       }
 
-      if (this.amount > this.user.totalBalance) {
+      if (this.amount > this.account.balance) {
         this.showMessage(
-          "Sorry you have insufficient fund for this transaction"
+          `You have insufficient fund in your ${this.account.currency} account.`
         );
       } else {
         this.confirmWithdrawal = true;

@@ -93,10 +93,9 @@ export default {
     },
 
     async getTransactionVolume(username) {
-      const query = `?username=${username}`;
+      const query = `?username=${username}&status=1`;
       try {
         const result = await this.$axios.get(`/transactions/volumn/${query}`);
-        console.log(result);
         this.setVolumes(result.data);
       } catch (err) {
         console.log(err.response.data.message);

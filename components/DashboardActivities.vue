@@ -93,7 +93,7 @@ export default {
     async getTransactions() {
       try {
         const result = await this.$axios.get(
-          `/transactions/?limit=4&username=${this.user.username}&sort=-time`
+          `/transactions/?limit=4&username=${this.user.username}&sort=-time&status=1`
         );
         this.transactions = result.data.data;
       } catch (err) {

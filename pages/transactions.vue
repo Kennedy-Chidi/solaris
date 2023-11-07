@@ -232,7 +232,7 @@ export default {
 
     async getTransactions() {
       // const query = `?username=${this.user.username}&status=true&sort=-time&limit=${this.limit}&page=${this.currentPage}${this.dateCreated}${this.type}`
-      const query = `?username=${this.user.username}&status=1&sort=-time&limit=${this.limit}&page=${this.currentPage}`;
+      const query = `?username=${this.user.username}&status=true&sort=-time&limit=${this.limit}&page=${this.currentPage}`;
       try {
         const result = await this.$axios.get(`/transactions/${query}`);
         this.transactions = result.data.data;
